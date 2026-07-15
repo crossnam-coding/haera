@@ -47,7 +47,10 @@
     "https://www.youtube.com/@오늘부터해라",
     "https://www.youtube.com/channel/UCLiDANnccVee5j5qJJKKoog",
     "https://www.instagram.com/_do______ob_",
-    "https://music.apple.com/kr/artist/1594824045"
+    "https://music.apple.com/kr/artist/1594824045",
+    "https://www.melon.com/artist/detail.htm?artistId=2958552",
+    "https://www.genie.co.kr/detail/artistInfo?xxnm=81177056",
+    "https://music.bugs.co.kr/artist/20141491"
   ]
 }
 </script>
@@ -78,6 +81,12 @@
         background:var(--panel); border:1px solid var(--line); color:var(--ink); transition:.18s}
   a.btn:hover{border-color:var(--accent); transform:translateY(-2px)}
   a.btn.primary{background:linear-gradient(100deg,var(--accent),var(--accent2)); color:#1a1030; border:0}
+  .streamgrid{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+  a.btn.sm{padding:13px 14px; font-size:15px}
+  .igsec{margin:40px auto 0; max-width:540px}
+  .igsec h2{font-size:14px; color:var(--accent); letter-spacing:.1em; text-transform:uppercase; margin-bottom:16px}
+  .iggrid{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; justify-items:center}
+  .iggrid .instagram-media{margin:0 auto !important; min-width:auto !important}
   .about{margin:34px auto 0; max-width:500px; text-align:left; color:var(--muted); font-size:15px;
          background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:22px 24px}
   .about h2{font-size:14px; color:var(--accent); letter-spacing:.1em; text-transform:uppercase; margin-bottom:10px}
@@ -107,12 +116,13 @@
 
     <div class="links">
       <a class="btn primary" href="https://www.youtube.com/@오늘부터해라">▶ YouTube · 오늘부터 해라</a>
-      <a class="btn" href="https://music.apple.com/kr/artist/1594824045">Apple Music</a>
-      <a class="btn" href="https://www.instagram.com/_do______ob_">Instagram</a>
-      <!-- 오빠 링크 주면 추가:
-      <a class="btn" href="REPLACE-SPOTIFY">Spotify</a>
-      <a class="btn" href="REPLACE-MELON">Melon</a>
-      -->
+      <div class="streamgrid">
+        <a class="btn sm" href="https://music.apple.com/kr/artist/1594824045">Apple Music</a>
+        <a class="btn sm" href="https://www.melon.com/artist/detail.htm?artistId=2958552">Melon</a>
+        <a class="btn sm" href="https://www.genie.co.kr/detail/artistInfo?xxnm=81177056">지니 Genie</a>
+        <a class="btn sm" href="https://music.bugs.co.kr/artist/20141491">벅스 Bugs</a>
+      </div>
+      <a class="btn" href="https://www.instagram.com/_do______ob_">Instagram · @_do______ob_</a>
     </div>
 
     <section class="about">
@@ -122,8 +132,21 @@
       <p class="en">Haera (해라) is a South Korean singer-songwriter. Known for an emotive, warm vocal style, Haera has released original singles including “Winter and Spring” (겨울 그리고 봄, 2024), “Palette,” and “별빛슈,” and shares K-pop and drama OST covers alongside original songs on the YouTube channel “Oneul-buteo Haera.”</p>
     </section>
 
+    <section class="igsec">
+      <h2>Instagram · @_do______ob_</h2>
+      <div class="iggrid">
+        <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DYpbCwuE6MB/" data-instgrm-version="14"></blockquote>
+        <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DYXDNV1E8Mt/" data-instgrm-version="14"></blockquote>
+        <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DZHnAr8ReMG/" data-instgrm-version="14"></blockquote>
+      </div>
+      <div class="links" style="margin-top:20px">
+        <a class="btn" href="https://www.instagram.com/_do______ob_">인스타그램에서 더 보기</a>
+      </div>
+    </section>
+
     <footer>© <span id="y"></span> 해라 (Haera). Official.</footer>
   </main>
   <script>document.getElementById('y').textContent=new Date().getFullYear()</script>
+  <script async src="//www.instagram.com/embed.js"></script>
 </body>
 </html>
