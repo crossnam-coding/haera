@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>해라 (Haera) — D3 PALETTE</title>
+<meta name="robots" content="noindex">
+<style>
+  :root{--ink:#2a1e33;--muted:#6b5f74;--card:#ffffff;--line:rgba(80,50,90,.12);--maxw:1140px;
+    --p1:#ffd1e8;--p2:#d5c7ff;--p3:#c7ecff;--p4:#fff2c7;--accent:#ff5fa2;--accent2:#8a6cff}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:"Pretendard","Apple SD Gothic Neo",system-ui,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden;
+    background:linear-gradient(160deg,var(--p1) 0%,var(--p2) 30%,var(--p3) 62%,var(--p4) 100%);background-attachment:fixed}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 26px}
+  nav{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(255,255,255,.5);backdrop-filter:blur(14px);transition:.3s}
+  nav.on{background:rgba(255,255,255,.82)}
+  .nav-in{max-width:var(--maxw);margin:0 auto;padding:16px 26px;display:flex;justify-content:space-between;align-items:center}
+  .brand{font-weight:800;font-size:22px;letter-spacing:-.01em;background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .nav-links{display:flex;gap:26px;font-size:14px;font-weight:600;color:var(--muted)}
+  .nav-links a:hover{color:var(--accent)}
+  @media(max-width:640px){.nav-links{display:none}}
+  /* hero */
+  .hero{min-height:100vh;display:flex;align-items:center;padding:110px 0 60px;text-align:center}
+  .hero-in{width:100%}
+  .badge{display:inline-block;background:#fff;border-radius:100px;padding:9px 20px;font-weight:700;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);box-shadow:0 10px 30px -12px rgba(255,95,162,.5)}
+  .hero h1{font-size:clamp(84px,20vw,220px);font-weight:800;line-height:.9;letter-spacing:-.04em;margin:22px 0 4px;
+    background:linear-gradient(120deg,var(--accent) 10%,var(--accent2) 90%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero .rom{font-weight:800;letter-spacing:.5em;color:#fff;font-size:15px;text-transform:uppercase;text-shadow:0 4px 14px rgba(120,60,120,.35)}
+  .hero p.t{max-width:520px;margin:26px auto 32px;font-size:clamp(16px,2.2vw,19px);font-weight:500;color:#4a3d55}
+  .btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .b{padding:16px 32px;border-radius:100px;font-weight:800;font-size:15px;transition:.2s;background:#fff;box-shadow:0 12px 30px -14px rgba(90,50,120,.5)}
+  .b:hover{transform:translateY(-3px)}
+  .b.fill{background:linear-gradient(100deg,var(--accent),var(--accent2));color:#fff}
+  section{padding:80px 0}
+  .lbl{display:inline-block;background:#fff;border-radius:100px;padding:7px 16px;font-weight:800;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent2)}
+  h2{font-size:clamp(34px,6vw,60px);font-weight:800;letter-spacing:-.02em;margin:16px 0 40px}
+  .panel{background:rgba(255,255,255,.55);backdrop-filter:blur(8px);border-radius:32px;padding:44px 34px;box-shadow:0 30px 70px -40px rgba(90,50,120,.5)}
+  .mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:22px}
+  .rel img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:20px;box-shadow:0 18px 40px -20px rgba(90,50,120,.55);transition:.25s}
+  .rel:hover img{transform:translateY(-6px) rotate(-1deg)}
+  .rel .t{margin-top:12px;font-weight:800;font-size:15px}.rel .y{color:var(--muted);font-size:13px;font-weight:600}
+  .vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px}
+  .vc{position:relative;border-radius:22px;overflow:hidden;background:#000;box-shadow:0 18px 40px -22px rgba(90,50,120,.6)}
+  .vc img{width:100%;aspect-ratio:16/9;object-fit:cover;transition:.25s}.vc:hover img{transform:scale(1.05)}
+  .vc .p{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:26px}
+  .vc .c{position:absolute;left:0;right:0;bottom:0;color:#fff;padding:24px 12px 10px;font-size:13px;font-weight:700;background:linear-gradient(0deg,rgba(0,0,0,.8),transparent)}
+  .vfeat{grid-column:1/-1}.vfeat img{aspect-ratio:2.4/1}
+  .about-in{display:grid;grid-template-columns:200px 1fr;gap:40px;align-items:center}
+  @media(max-width:680px){.about-in{grid-template-columns:1fr;gap:22px;text-align:center}}
+  .about-in img{width:200px;height:200px;object-fit:cover;border-radius:28px;box-shadow:0 22px 46px -24px rgba(90,50,120,.6);margin:0 auto}
+  .about-in p{color:#4a3d55;max-width:600px;font-weight:500}.about-in .en{color:var(--muted);font-size:14px;margin-top:12px}
+  .label{display:inline-block;margin-top:16px;background:#fff;padding:7px 16px;border-radius:100px;font-size:13px;font-weight:700;color:var(--accent2)}
+  .follow{text-align:center}
+  .fl{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;max-width:720px;margin:0 auto}
+  .fl a{flex:1 1 150px;max-width:200px;padding:18px;background:#fff;border-radius:18px;font-weight:800;transition:.2s;box-shadow:0 12px 30px -18px rgba(90,50,120,.5)}
+  .fl a:hover{transform:translateY(-4px);color:var(--accent)}
+  footer{padding:40px 0;text-align:center;color:#5a4d64;font-weight:600;font-size:13px}
+</style>
+</head>
+<body>
+<nav id="nav"><div class="nav-in"><a class="brand" href="#top">해라</a><div class="nav-links"><a href="#music">Music</a><a href="#video">Video</a><a href="#about">About</a><a href="#follow">Follow</a></div></div></nav>
+
+<header class="hero" id="top"><div class="wrap hero-in">
+  <span class="badge">Singer-songwriter · K-pop</span>
+  <h1>해라</h1>
+  <p class="rom">Haera</p>
+  <p class="t">싱글 ‘Palette’, ‘겨울 그리고 봄’ 등 자작곡을 발표하고 K-pop·OST 커버를 노래하는 대한민국의 신예 싱어송라이터 🎨</p>
+  <div class="btns"><a class="b fill" href="#music">🎧 음악 듣기</a><a class="b" href="https://www.youtube.com/@오늘부터해라">YouTube</a></div>
+</div></header>
+
+<section id="music"><div class="wrap"><div class="panel">
+  <span class="lbl">Discography</span><h2>Music 🎵</h2>
+  <div class="mgrid">
+    <a class="rel" href="https://music.apple.com/kr/album/palette-single/1890355590"><img src="https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/e4/30/68/e430684b-01be-e32f-4755-c56b3d0eb663/cover_KM0024454_1.jpg/600x600bb.jpg"><div class="t">Palette</div><div class="y">2026 · Single</div></a>
+    <a class="rel" href="https://music.apple.com/kr/album/starry-choux-single/1847576547"><img src="https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/d6/91/f3/d691f3d7-fd55-039b-234c-ba1ae0fa4e24/8800334228857.jpg/600x600bb.jpg"><div class="t">별빛슈 (Starry Choux)</div><div class="y">2025 · Single</div></a>
+    <a class="rel" href="https://music.apple.com/kr/album/%EA%B2%A8%EC%9A%B8-%EA%B7%B8%EB%A6%AC%EA%B3%A0-%EB%B4%84-single/1784180641"><img src="https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/b2/a9/e1/b2a9e129-3a44-d9cc-5905-a5442f350646/8800280896490.jpg/600x600bb.jpg"><div class="t">겨울 그리고 봄</div><div class="y">2024 · Single</div></a>
+    <a class="rel" href="https://music.apple.com/kr/album/%EC%84%A0%EB%A6%89%ED%9A%8C%EA%B4%80-session-2-%EC%B2%AD%EA%B3%84%EC%B2%9C-single/1728195160"><img src="https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/50/44/55/50445576-b0b4-d98d-8b7b-bda2c8d15599/8800243592087.jpg/600x600bb.jpg"><div class="t">선릉회관 Session #2</div><div class="y">2024 · Single</div></a>
+    <a class="rel" href="https://music.apple.com/kr/album/%EC%84%A0%EB%A6%89%ED%9A%8C%EA%B4%80-session-1-ep/1712065673"><img src="https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/a8/a3/a6/a8a3a6c5-3c84-7a08-20d3-ca514ee6d9d7/8809960980856.jpg/600x600bb.jpg"><div class="t">선릉회관 Session #1</div><div class="y">2023 · EP</div></a>
+    <a class="rel" href="https://music.apple.com/kr/album/midnight-single/1594981838"><img src="https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/17/59/3d/17593d04-5655-6114-0fb4-147e8bd3335e/192641803659.jpg/600x600bb.jpg"><div class="t">Midnight</div><div class="y">2021 · Single</div></a>
+  </div>
+</div></div></section>
+
+<section id="video"><div class="wrap"><div class="panel">
+  <span class="lbl">Watch</span><h2>Video 🎬</h2>
+  <div class="vgrid">
+    <a class="vc vfeat" href="https://www.youtube.com/watch?v=b9AwacQX20E"><img src="https://i.ytimg.com/vi/b9AwacQX20E/maxresdefault.jpg"><div class="p">▶</div><div class="c">해라 ‘겨울 그리고 봄’ Official MV</div></a>
+    <a class="vc" href="https://www.youtube.com/watch?v=qK2SiZfUl70"><img src="https://i.ytimg.com/vi/qK2SiZfUl70/hqdefault.jpg"><div class="c">Seori – Full moon (cover)</div></a>
+    <a class="vc" href="https://www.youtube.com/watch?v=RXx137BwyOI"><img src="https://i.ytimg.com/vi/RXx137BwyOI/hqdefault.jpg"><div class="c">자우림 – 스물다섯 스물하나 (cover)</div></a>
+    <a class="vc" href="https://www.youtube.com/watch?v=dUfCHSj4JbE"><img src="https://i.ytimg.com/vi/dUfCHSj4JbE/hqdefault.jpg"><div class="c">NMIXX – Heavy Serenade (cover)</div></a>
+  </div>
+</div></div></section>
+
+<section id="about"><div class="wrap"><div class="panel about-in">
+  <img src="https://yt3.googleusercontent.com/bQQG5yPeHq6dIdUz5fH_RIgx5m20AijXxxzqladhKDzi7-uzZ80Qh0f7WdxtY2QvPSzpEruMKLY=s400-c-k-c0x00ffffff-no-rj">
+  <div><span class="lbl">About</span><h2 style="margin:12px 0 14px">해라 · Haera</h2>
+    <p>해라(Haera)는 대한민국의 싱어송라이터입니다. 싱글 ‘Palette’, ‘겨울 그리고 봄’, ‘별빛슈’ 등 자작곡을 발표했으며, 유튜브 채널 ‘오늘부터 해라’를 통해 K-pop·OST 커버와 오리지널 곡을 선보이는 신예 아티스트예요.</p>
+    <p class="en">Haera is a South Korean singer-songwriter known for an emotive, warm vocal style.</p>
+    <span class="label">Ncompany Entertainment</span>
+  </div>
+</div></div></section>
+
+<section id="follow" class="follow"><div class="wrap">
+  <span class="lbl">Follow &amp; Listen</span><h2>해라와 함께해요 💜</h2>
+  <div class="fl">
+    <a href="https://www.youtube.com/@오늘부터해라">YouTube</a>
+    <a href="https://www.instagram.com/_do______ob_">Instagram</a>
+    <a href="https://music.apple.com/kr/artist/1594824045">Apple Music</a>
+    <a href="https://www.melon.com/artist/detail.htm?artistId=2958552">Melon</a>
+    <a href="https://www.genie.co.kr/detail/artistInfo?xxnm=81177056">Genie</a>
+    <a href="https://music.bugs.co.kr/artist/20141491">Bugs</a>
+  </div>
+</div></section>
+<footer>© 2026 해라 (Haera). Official · Ncompany Entertainment</footer>
+<script>addEventListener('scroll',function(){document.getElementById('nav').classList.toggle('on',scrollY>40)})</script>
+</body></html>
