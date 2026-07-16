@@ -1,0 +1,63 @@
+<!DOCTYPE html><html lang="ko"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>해라 — ① Kinetic Editorial</title><meta name="robots" content="noindex">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#f4f3ee;--ink:#111;--acid:#d8ff00;--muted:#8a8880}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Pretendard",system-ui,sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  .disp{font-family:"Anton",sans-serif;text-transform:uppercase;letter-spacing:.01em}
+  nav{position:fixed;top:0;left:0;right:0;z-index:40;display:flex;justify-content:space-between;align-items:center;padding:22px 30px;mix-blend-mode:difference;color:#fff}
+  nav .b{font-family:"Anton";font-size:20px;letter-spacing:.1em}
+  nav .l{display:flex;gap:24px;font-size:12px;letter-spacing:.14em;text-transform:uppercase}
+  /* hero */
+  .hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:end;gap:0;padding:0 30px 40px;position:relative}
+  @media(max-width:800px){.hero{grid-template-columns:1fr;padding-top:90px}}
+  .hero .big{grid-column:1/-1;font-family:"Anton";font-size:min(30vw,420px);line-height:.8;letter-spacing:-.01em;margin-bottom:-2vw;position:relative;z-index:2;pointer-events:none}
+  .hero .photo{position:absolute;top:12vh;right:5vw;width:38vw;max-width:460px;aspect-ratio:3/4;object-fit:cover;object-position:center 20%;z-index:1;filter:grayscale(.1)}
+  @media(max-width:800px){.hero .photo{position:static;width:100%;margin-top:20px;order:-1}}
+  .hero .meta{z-index:3;max-width:420px}
+  .hero .meta h2{font-size:19px;font-weight:600;line-height:1.5}
+  .hero .meta .k{display:inline-block;background:var(--acid);padding:3px 10px;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px}
+  .hero .idx{text-align:right;font-family:"Anton";font-size:14px;align-self:end;letter-spacing:.1em}
+  /* kinetic marquee */
+  .kin{border-top:3px solid var(--ink);border-bottom:3px solid var(--ink);overflow:hidden;background:var(--ink);color:var(--acid)}
+  .kin .t{display:flex;white-space:nowrap;animation:mv 18s linear infinite;font-family:"Anton";font-size:clamp(40px,8vw,96px);text-transform:uppercase;padding:8px 0}
+  .kin .t span{padding:0 26px}.kin .t .o{color:transparent;-webkit-text-stroke:1.5px var(--acid)}
+  @keyframes mv{to{transform:translateX(-50%)}}
+  /* index */
+  .index{padding:80px 30px}
+  .index h3{font-family:"Anton";font-size:14px;letter-spacing:.2em;color:var(--muted);margin-bottom:20px}
+  .row{display:grid;grid-template-columns:60px 1fr auto;align-items:center;gap:20px;padding:22px 0;border-top:1.5px solid var(--ink);transition:.25s}
+  .row:last-child{border-bottom:1.5px solid var(--ink)}
+  .row .n{font-family:"Anton";font-size:20px}
+  .row .ti{font-family:"Anton";font-size:clamp(28px,5vw,56px);text-transform:uppercase;transition:.25s}
+  .row .y{font-size:14px;color:var(--muted);letter-spacing:.1em}
+  .row:hover{background:var(--acid);padding-left:16px}
+  .row:hover .ti{transform:translateX(6px)}
+  footer{padding:30px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+</style></head><body>
+<nav><span class="b">HAERA</span><span class="l"><a href="https://www.youtube.com/@오늘부터해라">YouTube</a><a href="https://www.instagram.com/_do______ob_">Instagram</a><a href="https://music.apple.com/kr/artist/1594824045">Apple</a></span></nav>
+
+<header class="hero">
+  <img class="photo" src="img/haera-hero.jpg" alt="해라">
+  <div class="meta"><span class="k">Singer-songwriter · K-pop</span><h2>싱글 ‘Palette’, ‘겨울 그리고 봄’ 등 자작곡을 노래하는 대한민국의 신예 싱어송라이터.</h2></div>
+  <div class="idx">EST. 2021<br>SEOUL, KR</div>
+  <div class="big disp">해라</div>
+</header>
+
+<div class="kin"><div class="t">
+  <span>HAERA</span><span class="o">SINGER</span><span>해라</span><span class="o">SONGWRITER</span><span>HAERA</span><span class="o">SINGER</span><span>해라</span><span class="o">SONGWRITER</span>
+</div></div>
+
+<section class="index">
+  <h3>◇ Selected Discography</h3>
+  <a class="row" href="https://music.apple.com/kr/album/palette-single/1890355590"><span class="n">01</span><span class="ti">Palette</span><span class="y">2026 — SINGLE</span></a>
+  <a class="row" href="https://music.apple.com/kr/album/starry-choux-single/1847576547"><span class="n">02</span><span class="ti">별빛슈 · Starry Choux</span><span class="y">2025 — SINGLE</span></a>
+  <a class="row" href="https://music.apple.com/kr/album/%EA%B2%A8%EC%9A%B8-%EA%B7%B8%EB%A6%AC%EA%B3%A0-%EB%B4%84-single/1784180641"><span class="n">03</span><span class="ti">겨울 그리고 봄</span><span class="y">2024 — SINGLE</span></a>
+  <a class="row" href="https://music.apple.com/kr/album/midnight-single/1594981838"><span class="n">04</span><span class="ti">Midnight</span><span class="y">2021 — SINGLE</span></a>
+</section>
+<footer><span>© 2026 해라 (HAERA)</span><span>NCOMPANY ENTERTAINMENT</span><span>① KINETIC EDITORIAL</span></footer>
+</body></html>
