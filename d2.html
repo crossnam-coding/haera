@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>해라 (Haera) — D2 AURORA</title>
 <meta name="robots" content="noindex">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
 <style>
   :root{--bg:#f3efe7;--card:#fbf8f2;--ink:#211d18;--muted:#7c756a;--accent:#b6604f;--line:#e2dccf;--maxw:1140px}
   *{box-sizing:border-box;margin:0;padding:0}
@@ -12,6 +16,8 @@
   body{font-family:"Pretendard","Apple SD Gothic Neo",system-ui,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden}
   a{color:inherit;text-decoration:none}
   .serif{font-family:"Playfair Display",Georgia,"Times New Roman","Apple SD Gothic Neo",serif}
+  .paper{position:fixed;inset:0;z-index:60;pointer-events:none;opacity:.5;mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E")}
   .wrap{max-width:var(--maxw);margin:0 auto;padding:0 34px}
   .reveal{opacity:0;transform:translateY(24px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
   .reveal.in{opacity:1;transform:none}
@@ -73,6 +79,7 @@
   @media(max-width:700px){.about-in{grid-template-columns:1fr;gap:28px}}
   .about-in img{width:220px;height:220px;object-fit:cover;border-radius:8px;box-shadow:0 26px 54px -32px rgba(60,40,20,.6)}
   .about-in p{color:#4a443c;max-width:600px;line-height:1.85}.about-in .en{color:var(--muted);font-size:14px;margin-top:14px}
+  .dropcap::first-letter{font-family:"Playfair Display",Georgia,serif;float:left;font-size:58px;line-height:.78;padding:8px 12px 0 0;color:var(--accent)}
   .label{display:inline-block;margin-top:18px;border:1px solid var(--line);padding:6px 16px;border-radius:100px;font-size:13px;color:var(--muted)}
   .follow{text-align:center;background:var(--card)}
   .fl{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;max-width:720px;margin:0 auto}
@@ -83,6 +90,7 @@
 </style>
 </head>
 <body>
+<div class="paper"></div>
 <nav id="nav"><div class="nav-in"><a class="brand serif" href="#top">Haera</a><div class="nav-links"><a href="#latest">Release</a><a href="#music">Music</a><a href="#video">Video</a><a href="#about">About</a><a href="#follow">Follow</a></div></div></nav>
 
 <header class="hero" id="top"><div class="wrap hero-in">
@@ -140,7 +148,7 @@
 <section id="about"><div class="wrap about-in reveal">
   <img src="https://yt3.googleusercontent.com/bQQG5yPeHq6dIdUz5fH_RIgx5m20AijXxxzqladhKDzi7-uzZ80Qh0f7WdxtY2QvPSzpEruMKLY=s400-c-k-c0x00ffffff-no-rj">
   <div><p class="lbl">About</p><h2 class="serif" style="margin:10px 0 16px">해라 · Haera</h2>
-    <p>해라(Haera)는 대한민국의 싱어송라이터입니다. 2024년 싱글 ‘겨울 그리고 봄’을 비롯해 ‘Palette’, ‘별빛슈’ 등 자작곡을 발표했으며, 유튜브 채널 ‘오늘부터 해라’를 통해 K-pop·드라마 OST 커버와 오리지널 곡을 선보이는 신예 아티스트입니다.</p>
+    <p class="dropcap">해라(Haera)는 대한민국의 싱어송라이터입니다. 2024년 싱글 ‘겨울 그리고 봄’을 비롯해 ‘Palette’, ‘별빛슈’ 등 자작곡을 발표했으며, 유튜브 채널 ‘오늘부터 해라’를 통해 K-pop·드라마 OST 커버와 오리지널 곡을 선보이는 신예 아티스트입니다.</p>
     <p class="en">A South Korean singer-songwriter known for an emotive, warm vocal style.</p>
     <span class="label">Ncompany Entertainment · 엔컴퍼니 엔터테인먼트</span>
   </div>
