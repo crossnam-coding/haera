@@ -1,63 +1,174 @@
 <!DOCTYPE html><html lang="ko"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>해라 — ① Kinetic Editorial</title><meta name="robots" content="noindex">
+<title>해라 (Haera) — Kinetic Editorial</title><meta name="robots" content="noindex">
+<link rel="preconnect" href="https://cdn.jsdelivr.net"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@600;700;900&display=swap" rel="stylesheet">
 <style>
-  :root{--bg:#f4f3ee;--ink:#111;--acid:#d8ff00;--muted:#8a8880}
+  :root{--bg:#f2f1ea;--ink:#0e0e0c;--acid:#ceff1a;--muted:#8f8c82;--line:#0e0e0c;--maxw:1320px}
   *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:"Pretendard",system-ui,sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden}
+  html{scroll-behavior:smooth}
+  body{font-family:"Pretendard",system-ui,sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden;-webkit-font-smoothing:antialiased}
   a{color:inherit;text-decoration:none}
-  .disp{font-family:"Anton",sans-serif;text-transform:uppercase;letter-spacing:.01em}
-  nav{position:fixed;top:0;left:0;right:0;z-index:40;display:flex;justify-content:space-between;align-items:center;padding:22px 30px;mix-blend-mode:difference;color:#fff}
-  nav .b{font-family:"Anton";font-size:20px;letter-spacing:.1em}
-  nav .l{display:flex;gap:24px;font-size:12px;letter-spacing:.14em;text-transform:uppercase}
+  .disp{font-family:"Anton",sans-serif;text-transform:uppercase;font-weight:400}
+  .arch{font-family:"Archivo",sans-serif}
+  .paper{position:fixed;inset:0;z-index:80;pointer-events:none;opacity:.35;mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.4'/%3E%3C/svg%3E")}
+  .reveal{opacity:0;transform:translateY(28px);transition:.9s cubic-bezier(.2,.7,.2,1)}.reveal.in{opacity:1;transform:none}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 34px}
+  /* nav */
+  nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:space-between;align-items:center;padding:20px 34px;mix-blend-mode:difference;color:#fff}
+  nav .b{font-family:"Anton";font-size:22px;letter-spacing:.16em}
+  nav .l{display:flex;gap:26px;font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase}
+  @media(max-width:720px){nav .l{display:none}}
   /* hero */
-  .hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:end;gap:0;padding:0 30px 40px;position:relative}
-  @media(max-width:800px){.hero{grid-template-columns:1fr;padding-top:90px}}
-  .hero .big{grid-column:1/-1;font-family:"Anton";font-size:min(30vw,420px);line-height:.8;letter-spacing:-.01em;margin-bottom:-2vw;position:relative;z-index:2;pointer-events:none}
-  .hero .photo{position:absolute;top:12vh;right:5vw;width:38vw;max-width:460px;aspect-ratio:3/4;object-fit:cover;object-position:center 20%;z-index:1;filter:grayscale(.1)}
-  @media(max-width:800px){.hero .photo{position:static;width:100%;margin-top:20px;order:-1}}
-  .hero .meta{z-index:3;max-width:420px}
-  .hero .meta h2{font-size:19px;font-weight:600;line-height:1.5}
-  .hero .meta .k{display:inline-block;background:var(--acid);padding:3px 10px;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px}
-  .hero .idx{text-align:right;font-family:"Anton";font-size:14px;align-self:end;letter-spacing:.1em}
-  /* kinetic marquee */
-  .kin{border-top:3px solid var(--ink);border-bottom:3px solid var(--ink);overflow:hidden;background:var(--ink);color:var(--acid)}
-  .kin .t{display:flex;white-space:nowrap;animation:mv 18s linear infinite;font-family:"Anton";font-size:clamp(40px,8vw,96px);text-transform:uppercase;padding:8px 0}
-  .kin .t span{padding:0 26px}.kin .t .o{color:transparent;-webkit-text-stroke:1.5px var(--acid)}
+  .hero{min-height:100vh;display:grid;grid-template-columns:1.15fr .85fr;gap:0;align-items:stretch}
+  @media(max-width:860px){.hero{grid-template-columns:1fr;min-height:auto;padding-top:76px}}
+  .hero .L{display:flex;flex-direction:column;justify-content:space-between;padding:120px 30px 44px 34px}
+  @media(max-width:860px){.hero .L{padding:20px 24px 30px}}
+  .hero .top{display:flex;justify-content:space-between;align-items:flex-start;gap:20px}
+  .hero .k{display:inline-block;background:var(--acid);padding:5px 12px;font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+  .hero .est{text-align:right;font-family:"Anton";font-size:13px;letter-spacing:.12em;line-height:1.5}
+  .hero .name{font-family:"Anton";font-size:min(26vw,300px);line-height:.78;letter-spacing:-.01em;margin-top:auto}
+  @media(max-width:860px){.hero .name{font-size:38vw;margin:30px 0 10px}}
+  .hero .sub{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-top:22px;flex-wrap:wrap}
+  .hero .sub p{max-width:400px;font-size:16px;font-weight:500;line-height:1.55}
+  .hero .rom{font-family:"Anton";font-size:15px;letter-spacing:.4em}
+  .hero .R{position:relative;overflow:hidden;border-left:2px solid var(--ink);min-height:56vh}
+  .hero .R img{width:100%;height:100%;object-fit:cover;object-position:center 18%;filter:grayscale(.08) contrast(1.03)}
+  .hero .R .tag{position:absolute;left:0;bottom:0;background:var(--ink);color:var(--acid);font-family:"Anton";font-size:12px;letter-spacing:.2em;padding:8px 14px}
+  /* marquee */
+  .kin{border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);overflow:hidden;background:var(--ink);color:var(--bg)}
+  .kin .t{display:flex;white-space:nowrap;animation:mv 20s linear infinite;font-family:"Anton";font-size:clamp(28px,5vw,60px);padding:12px 0}
+  .kin:hover .t{animation-play-state:paused}
+  .kin .t span{padding:0 22px;display:inline-flex;align-items:center;gap:22px}
+  .kin .t i{color:var(--acid);font-style:normal}
+  .kin .t .o{color:transparent;-webkit-text-stroke:1px var(--bg)}
   @keyframes mv{to{transform:translateX(-50%)}}
+  /* section head */
+  section{padding:100px 0}
+  .sh{display:flex;align-items:baseline;gap:16px;margin-bottom:36px}
+  .sh .n{font-family:"Anton";font-size:15px;color:var(--muted)}
+  .sh h2{font-family:"Anton";font-size:clamp(30px,6vw,64px);letter-spacing:-.01em;text-transform:uppercase}
+  .sh .r{margin-left:auto;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
   /* index */
-  .index{padding:80px 30px}
-  .index h3{font-family:"Anton";font-size:14px;letter-spacing:.2em;color:var(--muted);margin-bottom:20px}
-  .row{display:grid;grid-template-columns:60px 1fr auto;align-items:center;gap:20px;padding:22px 0;border-top:1.5px solid var(--ink);transition:.25s}
-  .row:last-child{border-bottom:1.5px solid var(--ink)}
+  .row{position:relative;display:grid;grid-template-columns:56px 1fr auto;align-items:center;gap:20px;padding:26px 0;border-top:1.5px solid var(--ink);transition:.28s;z-index:1}
+  #music .row:last-of-type{border-bottom:1.5px solid var(--ink)}
   .row .n{font-family:"Anton";font-size:20px}
-  .row .ti{font-family:"Anton";font-size:clamp(28px,5vw,56px);text-transform:uppercase;transition:.25s}
-  .row .y{font-size:14px;color:var(--muted);letter-spacing:.1em}
-  .row:hover{background:var(--acid);padding-left:16px}
-  .row:hover .ti{transform:translateX(6px)}
-  footer{padding:30px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+  .row .ti{font-family:"Anton";font-size:clamp(26px,4.4vw,52px);text-transform:uppercase;transition:.28s}
+  .row .y{font-size:13px;color:var(--muted);letter-spacing:.1em;font-weight:600;z-index:3}
+  .row .cover{position:absolute;right:150px;top:50%;width:104px;height:104px;object-fit:cover;transform:translateY(-50%) scale(.7) rotate(-6deg);opacity:0;transition:.3s;z-index:4;box-shadow:0 20px 40px -16px rgba(0,0,0,.5);pointer-events:none}
+  .row:hover{background:var(--acid);padding-left:20px;padding-right:20px}
+  .row:hover .ti{transform:translateX(8px)}
+  .row:hover .cover{opacity:1;transform:translateY(-50%) scale(1) rotate(-4deg)}
+  @media(max-width:600px){.row .cover{display:none}.row{grid-template-columns:40px 1fr auto;gap:12px}}
+  /* video */
+  .video{background:var(--ink);color:var(--bg)}
+  .video .sh h2,.video .sh .n{color:var(--bg)}.video .sh .r{color:var(--acid)}
+  .vfeat{position:relative;overflow:hidden;margin-bottom:16px;display:block}
+  .vfeat img{width:100%;aspect-ratio:2.6/1;object-fit:cover;transition:.5s}.vfeat:hover img{transform:scale(1.03)}
+  .vfeat .c{position:absolute;left:0;bottom:0;padding:26px 22px;font-family:"Anton";font-size:clamp(20px,3vw,34px);text-transform:uppercase;background:linear-gradient(0deg,rgba(0,0,0,.8),transparent)}
+  .vfeat .p{position:absolute;top:22px;right:22px;background:var(--acid);color:#111;font-family:"Anton";font-size:13px;letter-spacing:.14em;padding:8px 14px}
+  .vg{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  @media(max-width:820px){.vg{grid-template-columns:repeat(2,1fr)}}
+  .vc{position:relative;overflow:hidden}
+  .vc img{width:100%;aspect-ratio:1;object-fit:cover;filter:grayscale(.15);transition:.4s}.vc:hover img{filter:none;transform:scale(1.05)}
+  .vc .c{position:absolute;left:0;right:0;bottom:0;padding:16px 12px 12px;font-size:12px;font-weight:700;background:linear-gradient(0deg,rgba(0,0,0,.85),transparent)}
+  /* gallery */
+  .gal{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  @media(max-width:700px){.gal{grid-template-columns:1fr 1fr}}
+  .gal figure{position:relative;overflow:hidden;aspect-ratio:3/4}
+  .gal img{width:100%;height:100%;object-fit:cover;transition:.5s}
+  .gal figure:hover img{transform:scale(1.05)}
+  .gal figcaption{position:absolute;left:0;bottom:0;background:var(--ink);color:var(--acid);font-family:"Anton";font-size:12px;letter-spacing:.16em;padding:6px 12px}
+  /* about */
+  .about-in{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:start}
+  @media(max-width:760px){.about-in{grid-template-columns:1fr;gap:24px}}
+  .about-in .big{font-family:"Anton";font-size:clamp(40px,7vw,92px);line-height:.9;text-transform:uppercase}
+  .about-in p{font-size:16px;line-height:1.8;max-width:520px}.about-in p+p{margin-top:16px}
+  .about-in .en{color:var(--muted);font-size:14px}
+  .stats{display:flex;gap:0;margin-top:30px;border-top:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink)}
+  .stats div{flex:1;padding:18px 0;border-right:1.5px solid var(--ink)}.stats div:last-child{border-right:0}
+  .stats span{font-family:"Anton";font-size:28px;display:block}.stats small{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  /* follow */
+  .fl{display:grid;grid-template-columns:repeat(3,1fr);border:2px solid var(--ink)}
+  @media(max-width:560px){.fl{grid-template-columns:repeat(2,1fr)}}
+  .fl a{padding:34px 16px;font-family:"Anton";font-size:20px;text-transform:uppercase;border-right:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);transition:.2s;position:relative}
+  .fl a:hover{background:var(--acid)}
+  footer{border-top:2px solid var(--ink);padding:30px 34px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
 </style></head><body>
-<nav><span class="b">HAERA</span><span class="l"><a href="https://www.youtube.com/@오늘부터해라">YouTube</a><a href="https://www.instagram.com/_do______ob_">Instagram</a><a href="https://music.apple.com/kr/artist/1594824045">Apple</a></span></nav>
+<div class="paper"></div>
+<nav><a class="b" href="#top">HAERA</a><div class="l"><a href="#music">Music</a><a href="#video">Video</a><a href="#gallery">Gallery</a><a href="#about">About</a><a href="#follow">Follow</a></div></nav>
 
-<header class="hero">
-  <img class="photo" src="img/haera-hero.jpg" alt="해라">
-  <div class="meta"><span class="k">Singer-songwriter · K-pop</span><h2>싱글 ‘Palette’, ‘겨울 그리고 봄’ 등 자작곡을 노래하는 대한민국의 신예 싱어송라이터.</h2></div>
-  <div class="idx">EST. 2021<br>SEOUL, KR</div>
-  <div class="big disp">해라</div>
+<header class="hero" id="top">
+  <div class="L">
+    <div class="top"><span class="k">Singer-songwriter · K-pop</span><div class="est">EST. 2021<br>SEOUL, KR</div></div>
+    <div class="name disp">해라</div>
+    <div class="sub"><p>싱글 ‘Palette’, ‘겨울 그리고 봄’ 등 자작곡을 노래하는 대한민국의 신예 싱어송라이터.</p><span class="rom">HAERA</span></div>
+  </div>
+  <div class="R"><img src="img/haera-hero.jpg" alt="해라"><span class="tag">Ncompany Ent.</span></div>
 </header>
 
 <div class="kin"><div class="t">
-  <span>HAERA</span><span class="o">SINGER</span><span>해라</span><span class="o">SONGWRITER</span><span>HAERA</span><span class="o">SINGER</span><span>해라</span><span class="o">SONGWRITER</span>
+  <span>HAERA <i>✦</i> <em class="o">해라</em> <i>✦</i> SINGER-SONGWRITER <i>✦</i></span>
+  <span>HAERA <i>✦</i> <em class="o">해라</em> <i>✦</i> SINGER-SONGWRITER <i>✦</i></span>
 </div></div>
 
-<section class="index">
-  <h3>◇ Selected Discography</h3>
-  <a class="row" href="https://music.apple.com/kr/album/palette-single/1890355590"><span class="n">01</span><span class="ti">Palette</span><span class="y">2026 — SINGLE</span></a>
-  <a class="row" href="https://music.apple.com/kr/album/starry-choux-single/1847576547"><span class="n">02</span><span class="ti">별빛슈 · Starry Choux</span><span class="y">2025 — SINGLE</span></a>
-  <a class="row" href="https://music.apple.com/kr/album/%EA%B2%A8%EC%9A%B8-%EA%B7%B8%EB%A6%AC%EA%B3%A0-%EB%B4%84-single/1784180641"><span class="n">03</span><span class="ti">겨울 그리고 봄</span><span class="y">2024 — SINGLE</span></a>
-  <a class="row" href="https://music.apple.com/kr/album/midnight-single/1594981838"><span class="n">04</span><span class="ti">Midnight</span><span class="y">2021 — SINGLE</span></a>
-</section>
-<footer><span>© 2026 해라 (HAERA)</span><span>NCOMPANY ENTERTAINMENT</span><span>① KINETIC EDITORIAL</span></footer>
+<section id="music"><div class="wrap">
+  <div class="sh"><span class="n">01</span><h2>Discography</h2><span class="r">◇ 2021 — 2026</span></div>
+  <a class="row" href="https://music.apple.com/kr/album/palette-single/1890355590"><span class="n">01</span><span class="ti">Palette</span><img class="cover" src="https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/e4/30/68/e430684b-01be-e32f-4755-c56b3d0eb663/cover_KM0024454_1.jpg/300x300bb.jpg"><span class="y">2026 — SINGLE</span></a>
+  <a class="row" href="https://music.apple.com/kr/album/starry-choux-single/1847576547"><span class="n">02</span><span class="ti">별빛슈 · Starry Choux</span><img class="cover" src="https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/d6/91/f3/d691f3d7-fd55-039b-234c-ba1ae0fa4e24/8800334228857.jpg/300x300bb.jpg"><span class="y">2025 — SINGLE</span></a>
+  <a class="row" href="https://music.apple.com/kr/album/%EA%B2%A8%EC%9A%B8-%EA%B7%B8%EB%A6%AC%EA%B3%A0-%EB%B4%84-single/1784180641"><span class="n">03</span><span class="ti">겨울 그리고 봄</span><img class="cover" src="https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/b2/a9/e1/b2a9e129-3a44-d9cc-5905-a5442f350646/8800280896490.jpg/300x300bb.jpg"><span class="y">2024 — SINGLE</span></a>
+  <a class="row" href="https://music.apple.com/kr/album/midnight-single/1594981838"><span class="n">04</span><span class="ti">Midnight</span><img class="cover" src="https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/17/59/3d/17593d04-5655-6114-0fb4-147e8bd3335e/192641803659.jpg/300x300bb.jpg"><span class="y">2021 — SINGLE</span></a>
+</div></section>
+
+<section class="video" id="video"><div class="wrap">
+  <div class="sh"><span class="n">02</span><h2>Video</h2><span class="r">▶ YouTube</span></div>
+  <a class="vfeat" href="https://www.youtube.com/watch?v=b9AwacQX20E"><img src="https://i.ytimg.com/vi/b9AwacQX20E/maxresdefault.jpg"><span class="p">Official MV</span><span class="c">겨울 그리고 봄</span></a>
+  <div class="vg">
+    <a class="vc" href="https://www.youtube.com/watch?v=qK2SiZfUl70"><img src="https://i.ytimg.com/vi/qK2SiZfUl70/hqdefault.jpg"><span class="c">Seori – Full moon (cover)</span></a>
+    <a class="vc" href="https://www.youtube.com/watch?v=RXx137BwyOI"><img src="https://i.ytimg.com/vi/RXx137BwyOI/hqdefault.jpg"><span class="c">자우림 – 스물다섯 스물하나</span></a>
+    <a class="vc" href="https://www.youtube.com/watch?v=iP0Lq8-y31M"><img src="https://i.ytimg.com/vi/iP0Lq8-y31M/hqdefault.jpg"><span class="c">헤이즈 – 넌 어디에</span></a>
+    <a class="vc" href="https://www.youtube.com/watch?v=dUfCHSj4JbE"><img src="https://i.ytimg.com/vi/dUfCHSj4JbE/hqdefault.jpg"><span class="c">NMIXX – Heavy Serenade</span></a>
+  </div>
+</div></section>
+
+<section id="gallery"><div class="wrap">
+  <div class="sh"><span class="n">03</span><h2>Gallery</h2><span class="r">◇ Photos</span></div>
+  <div class="gal">
+    <figure><img src="img/haera-hero.jpg" style="object-position:center 16%" alt="해라"><figcaption>01</figcaption></figure>
+    <figure><img src="img/haera-guitar.jpg" style="object-position:center 20%" alt="해라"><figcaption>02</figcaption></figure>
+    <figure><img src="img/haera-red.jpg" style="object-position:center 26%" alt="해라"><figcaption>03</figcaption></figure>
+  </div>
+</div></section>
+
+<section id="about"><div class="wrap about-in reveal">
+  <div class="big">해라<br>Haera</div>
+  <div>
+    <p>해라(Haera)는 대한민국의 싱어송라이터입니다. 백석예술대학교 실용음악과에서 보컬을 전공했으며, 2021년 싱글 ‘Midnight’으로 데뷔해 ‘겨울 그리고 봄’(2024), ‘별빛슈’(2025), ‘Palette’(2026) 등 작사·작곡에 직접 참여한 자작곡을 발표했습니다.</p>
+    <p class="en">A South Korean singer-songwriter known for an emotive, warm vocal style. Shares K-pop and OST covers alongside original songs on the YouTube channel ‘오늘부터 해라’.</p>
+    <div class="stats">
+      <div><span>2021</span><small>Debut</small></div>
+      <div><span>6+</span><small>Releases</small></div>
+      <div><span>Vocal</span><small>백석예대</small></div>
+    </div>
+  </div>
+</div></section>
+
+<section id="follow"><div class="wrap">
+  <div class="sh"><span class="n">04</span><h2>Follow</h2><span class="r">◇ Listen everywhere</span></div>
+  <div class="fl">
+    <a href="https://www.youtube.com/@오늘부터해라">YouTube</a>
+    <a href="https://www.instagram.com/_do______ob_">Instagram</a>
+    <a href="https://music.apple.com/kr/artist/1594824045">Apple</a>
+    <a href="https://www.melon.com/artist/detail.htm?artistId=2958552">Melon</a>
+    <a href="https://www.genie.co.kr/detail/artistInfo?xxnm=81177056">Genie</a>
+    <a href="https://music.bugs.co.kr/artist/20141491">Bugs</a>
+  </div>
+</div></section>
+<footer><span>© 2026 해라 (HAERA)</span><span>Ncompany Entertainment</span><span>Kinetic Editorial</span></footer>
+<script>
+  var io=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{threshold:.1});
+  document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});
+</script>
 </body></html>
