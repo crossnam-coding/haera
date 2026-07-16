@@ -93,11 +93,14 @@
   .outnow b{color:var(--accent2)}
   .outnow .go{background:#fff;color:#111;border-radius:100px;padding:5px 12px;font-weight:800;font-size:11px;letter-spacing:.08em}
   /* marquee */
-  .marquee{border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;background:var(--bg)}
-  .marquee .track{display:flex;gap:0;white-space:nowrap;animation:scrollx 26s linear infinite;width:max-content}
+  .marquee{border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;background:#0a0a0c;
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent);mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent)}
+  .marquee .track{display:flex;white-space:nowrap;animation:scrollx 24s linear infinite;width:max-content}
   .marquee:hover .track{animation-play-state:paused}
-  .marquee span{font-family:"Anton",sans-serif;font-size:clamp(30px,5vw,52px);letter-spacing:.02em;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.35);padding:20px 26px;text-transform:uppercase}
-  .marquee span em{color:var(--accent);-webkit-text-stroke:0;font-style:normal}
+  .marquee .grp{display:inline-flex;align-items:center;padding:11px 0}
+  .marquee .it{font-family:"Anton",sans-serif;font-size:clamp(15px,2.2vw,24px);letter-spacing:.05em;color:#eceaef;text-transform:uppercase;line-height:1}
+  .marquee .it sup{font-family:"Pretendard",sans-serif;font-size:9px;font-weight:700;color:var(--accent);letter-spacing:.12em;vertical-align:super;margin-left:5px}
+  .marquee .sep{color:var(--accent);font-size:9px;padding:0 20px;transform:translateY(-1px)}
   @keyframes scrollx{to{transform:translateX(-50%)}}
   footer{padding:64px 0;text-align:center;color:var(--muted);font-size:12px;letter-spacing:.08em;border-top:1px solid var(--line)}
   footer .big{color:var(--ink);font-weight:800;letter-spacing:.3em;font-size:16px;margin-bottom:16px}
@@ -119,8 +122,8 @@
 </div><div class="scrollcue">Scroll</div></header>
 
 <div class="marquee"><div class="track">
-  <span>Palette <em>◆</em> 겨울 그리고 봄 <em>◆</em> 별빛슈 <em>◆</em> Midnight <em>◆</em> 선릉회관 <em>◆</em> </span>
-  <span>Palette <em>◆</em> 겨울 그리고 봄 <em>◆</em> 별빛슈 <em>◆</em> Midnight <em>◆</em> 선릉회관 <em>◆</em> </span>
+  <span class="grp"><span class="it">Palette<sup>2026</sup></span><span class="sep">◆</span><span class="it">겨울 그리고 봄<sup>2024</sup></span><span class="sep">◆</span><span class="it">별빛슈<sup>2025</sup></span><span class="sep">◆</span><span class="it">Midnight<sup>2021</sup></span><span class="sep">◆</span></span>
+  <span class="grp"><span class="it">Palette<sup>2026</sup></span><span class="sep">◆</span><span class="it">겨울 그리고 봄<sup>2024</sup></span><span class="sep">◆</span><span class="it">별빛슈<sup>2025</sup></span><span class="sep">◆</span><span class="it">Midnight<sup>2021</sup></span><span class="sep">◆</span></span>
 </div></div>
 
 <!-- LATEST -->
