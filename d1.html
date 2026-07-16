@@ -88,6 +88,12 @@
   .about p{color:#cfcbd2;max-width:560px;line-height:1.8}.about .en{color:var(--muted);font-size:14px;margin-top:14px}
   .stats{display:flex;gap:34px;margin-top:26px;flex-wrap:wrap}
   .stats div span{display:block;font-size:22px;font-weight:800}.stats div small{color:var(--muted);font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+  /* gallery */
+  .gal{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  @media(max-width:700px){.gal{grid-template-columns:1fr 1fr}}
+  .gal a{position:relative;overflow:hidden;border-radius:4px;aspect-ratio:3/4;display:block}
+  .gal img{width:100%;height:100%;object-fit:cover;filter:brightness(.92);transition:.5s}
+  .gal a:hover img{transform:scale(1.06);filter:brightness(1.05)}
   .follow{text-align:center}
   .fl{display:flex;flex-wrap:wrap;gap:1px;justify-content:center;background:var(--line);border:1px solid var(--line);max-width:800px;margin:0 auto}
   .fl a{flex:1 1 140px;padding:28px 10px;background:var(--bg);font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:12.5px;transition:.25s}
@@ -115,7 +121,7 @@
 </head>
 <body>
 <div class="grain"></div>
-<nav id="nav"><div class="nav-in"><a class="brand" href="#top">HAERA</a><div class="nav-links"><a href="#latest">Release</a><a href="#music">Music</a><a href="#video">Video</a><a href="#about">About</a><a href="#follow">Follow</a></div></div></nav>
+<nav id="nav"><div class="nav-in"><a class="brand" href="#top">HAERA</a><div class="nav-links"><a href="#latest">Release</a><a href="#music">Music</a><a href="#video">Video</a><a href="#gallery">Gallery</a><a href="#about">About</a><a href="#follow">Follow</a></div></div></nav>
 
 <header class="hero" id="top">
   <div class="txt">
@@ -167,10 +173,19 @@
   </div>
 </div></section>
 
+<section id="gallery"><div class="wrap">
+  <div class="head reveal"><span class="num">03</span><div><div class="lbl">Gallery</div><h2>Photos</h2></div></div>
+  <div class="gal reveal">
+    <a href="img/haera-hero.jpg"><img src="img/haera-hero.jpg" alt="해라 프로필" style="object-position:center 18%"></a>
+    <a href="img/haera-guitar.jpg"><img src="img/haera-guitar.jpg" alt="해라 프로필" style="object-position:center 22%"></a>
+    <a href="img/haera-red.jpg"><img src="img/haera-red.jpg" alt="해라 프로필" style="object-position:center 28%"></a>
+  </div>
+</div></section>
+
 <section id="about"><div class="wrap about reveal">
   <img src="img/haera-red.jpg" style="object-position:center 30%">
-  <div><div class="head" style="margin-bottom:18px"><span class="num">03</span><div><div class="lbl">About</div><h2>해라 · Haera</h2></div></div>
-    <p>해라(Haera)는 대한민국의 싱어송라이터입니다. 싱글 ‘Palette’, ‘겨울 그리고 봄’, ‘별빛슈’ 등 자작곡을 발표했으며, 유튜브 채널 ‘오늘부터 해라’를 통해 K-pop·드라마 OST 커버와 오리지널 곡을 선보이는 신예 아티스트입니다.</p>
+  <div><div class="head" style="margin-bottom:18px"><span class="num">04</span><div><div class="lbl">About</div><h2>해라 · Haera</h2></div></div>
+    <p>해라(Haera)는 대한민국의 싱어송라이터입니다. 백석예술대학교 실용음악과에서 보컬을 전공했으며, 2021년 싱글 ‘Midnight’으로 데뷔해 ‘겨울 그리고 봄’(2024), ‘별빛슈’(2025), ‘Palette’(2026) 등 작사·작곡에 직접 참여한 자작곡을 발표했습니다. 유튜브 채널 ‘오늘부터 해라’를 통해 K-pop·드라마 OST 커버와 오리지널 곡을 선보이는 신예 아티스트입니다.</p>
     <p class="en">A South Korean singer-songwriter known for an emotive, warm vocal style.</p>
     <div class="stats">
       <div><span>2021</span><small>Debut</small></div>
