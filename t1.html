@@ -29,8 +29,10 @@
   .hero .top{display:flex;justify-content:space-between;align-items:flex-start;gap:20px}
   .hero .k{display:inline-block;background:var(--acid);padding:5px 12px;font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
   .hero .est{text-align:right;font-family:"Anton";font-size:13px;letter-spacing:.12em;line-height:1.5}
-  .hero .name{font-family:"Anton";font-size:min(26vw,300px);line-height:.78;letter-spacing:-.01em;margin-top:auto}
-  @media(max-width:860px){.hero .name{font-size:38vw;margin:30px 0 10px}}
+  .hero .note{align-self:flex-start;display:inline-flex;align-items:center;gap:10px;border:1.5px solid var(--ink);padding:9px 16px;font-family:"Anton";font-size:14px;letter-spacing:.08em;text-transform:uppercase;transition:.2s}
+  .hero .note:hover{background:var(--acid)}.hero .note i{color:#c9a300;font-style:normal}
+  .hero .name{font-family:"Anton";font-size:min(24vw,280px);line-height:.78;letter-spacing:-.01em}
+  @media(max-width:860px){.hero .name{font-size:38vw;margin:20px 0 10px}.hero .note{margin:22px 0}}
   .hero .sub{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-top:22px;flex-wrap:wrap}
   .hero .sub p{max-width:400px;font-size:16px;font-weight:500;line-height:1.55}
   .hero .rom{font-family:"Anton";font-size:15px;letter-spacing:.4em}
@@ -91,9 +93,9 @@
   .stats div{flex:1;padding:18px 0;border-right:1.5px solid var(--ink)}.stats div:last-child{border-right:0}
   .stats span{font-family:"Anton";font-size:28px;display:block}.stats small{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
   /* follow */
-  .fl{display:grid;grid-template-columns:repeat(3,1fr);border:2px solid var(--ink)}
+  .fl{display:grid;grid-template-columns:repeat(3,1fr);border-top:2px solid var(--ink);border-left:2px solid var(--ink)}
   @media(max-width:560px){.fl{grid-template-columns:repeat(2,1fr)}}
-  .fl a{padding:34px 16px;font-family:"Anton";font-size:20px;text-transform:uppercase;border-right:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);transition:.2s;position:relative}
+  .fl a{padding:34px 16px;font-family:"Anton";font-size:20px;text-transform:uppercase;border-right:2px solid var(--ink);border-bottom:2px solid var(--ink);transition:.2s;position:relative}
   .fl a:hover{background:var(--acid)}
   footer{border-top:2px solid var(--ink);padding:30px 34px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
 </style></head><body>
@@ -103,8 +105,11 @@
 <header class="hero" id="top">
   <div class="L">
     <div class="top"><span class="k">Singer-songwriter · K-pop</span><div class="est">EST. 2021<br>SEOUL, KR</div></div>
-    <div class="name disp">해라</div>
-    <div class="sub"><p>싱글 ‘Palette’, ‘겨울 그리고 봄’ 등 자작곡을 노래하는 대한민국의 신예 싱어송라이터.</p><span class="rom">HAERA</span></div>
+    <a class="note" href="https://music.apple.com/kr/album/palette-single/1890355590"><i>✦</i> New Single ‘Palette’ · Out Now ↗</a>
+    <div class="bottom">
+      <div class="name disp">해라</div>
+      <div class="sub"><p>싱글 ‘Palette’, ‘겨울 그리고 봄’ 등 자작곡을 노래하는 대한민국의 신예 싱어송라이터.</p><span class="rom">HAERA</span></div>
+    </div>
   </div>
   <div class="R"><img src="img/haera-hero.jpg" alt="해라"><span class="tag">Ncompany Ent.</span></div>
 </header>
@@ -124,7 +129,7 @@
 
 <section class="video" id="video"><div class="wrap">
   <div class="sh"><span class="n">02</span><h2>Video</h2><span class="r">▶ YouTube</span></div>
-  <a class="vfeat" href="https://www.youtube.com/watch?v=b9AwacQX20E"><img src="https://i.ytimg.com/vi/b9AwacQX20E/maxresdefault.jpg"><span class="p">Official MV</span><span class="c">겨울 그리고 봄</span></a>
+  <a class="vfeat" href="https://www.youtube.com/watch?v=b9AwacQX20E"><img src="https://i.ytimg.com/vi/b9AwacQX20E/maxresdefault.jpg"><span class="p">▶ Watch on YouTube</span></a>
   <div class="vg">
     <a class="vc" href="https://www.youtube.com/watch?v=qK2SiZfUl70"><img src="https://i.ytimg.com/vi/qK2SiZfUl70/hqdefault.jpg"><span class="c">Seori – Full moon (cover)</span></a>
     <a class="vc" href="https://www.youtube.com/watch?v=RXx137BwyOI"><img src="https://i.ytimg.com/vi/RXx137BwyOI/hqdefault.jpg"><span class="c">자우림 – 스물다섯 스물하나</span></a>
@@ -142,7 +147,9 @@
   </div>
 </div></section>
 
-<section id="about"><div class="wrap about-in reveal">
+<section id="about"><div class="wrap">
+  <div class="sh"><span class="n">04</span><h2>Biography</h2><span class="r">◇ Profile</span></div>
+  <div class="about-in reveal">
   <div class="big">해라<br>Haera</div>
   <div>
     <p>해라(Haera)는 대한민국의 싱어송라이터입니다. 백석예술대학교 실용음악과에서 보컬을 전공했으며, 2021년 싱글 ‘Midnight’으로 데뷔해 ‘겨울 그리고 봄’(2024), ‘별빛슈’(2025), ‘Palette’(2026) 등 작사·작곡에 직접 참여한 자작곡을 발표했습니다.</p>
@@ -153,10 +160,11 @@
       <div><span>Vocal</span><small>백석예대</small></div>
     </div>
   </div>
+  </div>
 </div></section>
 
 <section id="follow"><div class="wrap">
-  <div class="sh"><span class="n">04</span><h2>Follow</h2><span class="r">◇ Listen everywhere</span></div>
+  <div class="sh"><span class="n">05</span><h2>Follow</h2><span class="r">◇ Listen everywhere</span></div>
   <div class="fl">
     <a href="https://www.youtube.com/@오늘부터해라">YouTube</a>
     <a href="https://www.instagram.com/_do______ob_">Instagram</a>
