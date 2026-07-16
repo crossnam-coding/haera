@@ -1,0 +1,190 @@
+<!DOCTYPE html><html lang="ko"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>해라 (Haera) — Kitsch Pop</title><meta name="robots" content="noindex">
+<link rel="preconnect" href="https://cdn.jsdelivr.net"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Bungee&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#39215a;--pink:#ff4fa3;--pur:#9a5bff;--mint:#25e0c0;--sky:#43c6ff;--yel:#ffd83d;--lime:#c3ff3e;--maxw:1240px}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:"Fredoka","Pretendard","Apple SD Gothic Neo",system-ui,sans-serif;color:var(--ink);overflow-x:hidden;-webkit-font-smoothing:antialiased;
+    background:#fff4fb;background-image:radial-gradient(circle at 12% 8%,#ffe0f3 0,transparent 38%),radial-gradient(circle at 88% 14%,#e2e0ff 0,transparent 40%),radial-gradient(circle at 70% 88%,#d6fff4 0,transparent 42%),radial-gradient(circle at 20% 92%,#fff6cf 0,transparent 40%)}
+  a{color:inherit;text-decoration:none}
+  .kr{font-family:"Pretendard",sans-serif}
+  .bungee{font-family:"Bungee",sans-serif}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 30px}
+  .reveal{opacity:0;transform:translateY(26px) scale(.98);transition:.7s cubic-bezier(.2,.8,.2,1)}.reveal.in{opacity:1;transform:none}
+  .grad{background:linear-gradient(100deg,var(--pink),var(--pur) 55%,var(--sky));-webkit-background-clip:text;background-clip:text;color:transparent}
+  /* nav */
+  nav{position:fixed;top:0;left:0;right:0;z-index:60;transition:.3s}
+  nav .in{max-width:var(--maxw);margin:0 auto;padding:16px 30px;display:flex;justify-content:space-between;align-items:center}
+  nav.on{background:rgba(255,244,251,.82);backdrop-filter:blur(12px)}
+  .brand{font-family:"Bungee";font-size:22px}
+  .brand.grad{background:linear-gradient(100deg,var(--pink),var(--pur));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .nav-links{display:flex;gap:22px;font-weight:600;font-size:15px}
+  .nav-links a:hover{color:var(--pink)}
+  @media(max-width:720px){.nav-links{display:none}}
+  .star{position:absolute;pointer-events:none;user-select:none;filter:drop-shadow(0 4px 8px rgba(150,80,180,.25))}
+  /* hero */
+  .hero{min-height:100vh;display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:20px;padding:110px 0 50px;position:relative}
+  @media(max-width:860px){.hero{grid-template-columns:1fr;text-align:center;padding-top:96px}}
+  .hero .badge{display:inline-flex;align-items:center;gap:8px;background:#fff;border:2.5px solid var(--ink);border-radius:100px;padding:8px 18px;font-weight:700;font-size:13px;box-shadow:4px 4px 0 var(--ink);transform:rotate(-2deg)}
+  .hero h1{font-family:"Pretendard";font-weight:900;font-size:clamp(96px,17vw,220px);line-height:.86;letter-spacing:-.03em;margin:20px 0 4px;
+    background:linear-gradient(120deg,var(--pink) 8%,var(--pur) 50%,var(--sky) 92%);-webkit-background-clip:text;background-clip:text;color:transparent;
+    -webkit-text-stroke:2px #fff;paint-order:stroke fill;filter:drop-shadow(5px 6px 0 rgba(57,33,90,.18))}
+  .hero .rom{font-family:"Bungee";font-size:clamp(20px,3vw,30px);color:var(--pur);letter-spacing:.04em}
+  .hero p{margin:22px auto 30px;max-width:420px;font-weight:500;font-size:18px}@media(min-width:861px){.hero p{margin-left:0}}
+  .btns{display:flex;gap:14px;flex-wrap:wrap}@media(max-width:860px){.btns{justify-content:center}}
+  .b{display:inline-flex;align-items:center;gap:8px;padding:15px 28px;border-radius:100px;font-weight:700;font-size:15px;border:2.5px solid var(--ink);background:#fff;box-shadow:4px 4px 0 var(--ink);transition:.15s}
+  .b:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
+  .b.fill{background:linear-gradient(100deg,var(--pink),var(--pur));color:#fff}
+  .hero .photo{position:relative;justify-self:center}
+  .hero .photo img{width:min(78%,380px);aspect-ratio:4/5;object-fit:cover;object-position:center 16%;border-radius:26px;border:5px solid #fff;box-shadow:8px 10px 0 var(--ink),0 30px 60px -20px rgba(150,60,150,.5);transform:rotate(3deg)}
+  .hero .photo .tape{position:absolute;top:-14px;left:50%;transform:translateX(-50%) rotate(-4deg);background:var(--yel);border:2.5px solid var(--ink);border-radius:8px;padding:5px 16px;font-family:"Bungee";font-size:13px;box-shadow:3px 3px 0 var(--ink)}
+  /* marquee */
+  .kin{background:var(--ink);color:#fff;overflow:hidden;border-top:4px solid var(--pink);border-bottom:4px solid var(--pink)}
+  .kin .t{display:flex;white-space:nowrap;animation:mv 22s linear infinite;padding:12px 0}
+  .kin .t span{font-family:"Bungee";font-size:clamp(20px,3.4vw,34px);padding:0 18px;display:inline-flex;gap:18px}
+  .kin .t i{font-style:normal}
+  @keyframes mv{to{transform:translateX(-50%)}}
+  /* sections */
+  section{padding:90px 0;position:relative}
+  .sh{text-align:center;margin-bottom:44px}
+  .sh .chip{display:inline-block;background:#fff;border:2.5px solid var(--ink);border-radius:100px;padding:6px 16px;font-weight:700;font-size:13px;box-shadow:3px 3px 0 var(--ink);transform:rotate(-1.5deg)}
+  .sh h2{font-family:"Pretendard";font-weight:900;font-size:clamp(40px,7vw,78px);margin-top:14px;letter-spacing:-.02em}
+  /* music */
+  .mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:26px}
+  .rel{background:#fff;border:3px solid var(--ink);border-radius:22px;padding:14px;box-shadow:5px 6px 0 var(--ink);transition:.18s}
+  .rel:nth-child(2){transform:rotate(-1.5deg)}.rel:nth-child(3){transform:rotate(1.5deg)}
+  .rel:hover{transform:translate(-3px,-4px) rotate(0);box-shadow:8px 10px 0 var(--ink)}
+  .rel img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:14px;display:block}
+  .rel .t{margin-top:12px;font-weight:700;font-size:16px}.rel .y{color:var(--pur);font-weight:600;font-size:13px}
+  /* latest banner */
+  .latest{background:linear-gradient(110deg,var(--pink),var(--pur));color:#fff;border-radius:34px;padding:34px;display:grid;grid-template-columns:170px 1fr;gap:28px;align-items:center;box-shadow:8px 10px 0 var(--ink);border:4px solid var(--ink)}
+  @media(max-width:640px){.latest{grid-template-columns:1fr;text-align:center;justify-items:center}}
+  .latest img{width:170px;height:170px;border-radius:18px;object-fit:cover;border:4px solid #fff;box-shadow:4px 5px 0 rgba(0,0,0,.25)}
+  .latest .k{font-family:"Bungee";font-size:13px;opacity:.95}
+  .latest h3{font-family:"Pretendard";font-weight:900;font-size:clamp(34px,6vw,56px);margin:4px 0 12px}
+  .latest .b{border-color:#fff;color:var(--ink)}
+  /* video */
+  .vgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+  @media(max-width:640px){.vgrid{grid-template-columns:1fr}}
+  .vc{position:relative;border:3px solid var(--ink);border-radius:20px;overflow:hidden;box-shadow:5px 6px 0 var(--ink);transition:.18s;background:#000}
+  .vc:hover{transform:translate(-3px,-4px);box-shadow:8px 10px 0 var(--ink)}
+  .vc img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block}
+  .vc .c{position:absolute;left:0;right:0;bottom:0;color:#fff;font-weight:600;padding:22px 12px 12px;background:linear-gradient(0deg,rgba(0,0,0,.8),transparent)}
+  .vc .p{position:absolute;top:12px;right:12px;background:var(--lime);border:2.5px solid var(--ink);border-radius:100px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:16px;box-shadow:2px 2px 0 var(--ink)}
+  .vfeat{grid-column:1/-1}.vfeat img{aspect-ratio:2.4/1}
+  /* gallery — polaroids */
+  .gal{display:flex;gap:24px;justify-content:center;flex-wrap:wrap}
+  .gal figure{background:#fff;border:3px solid var(--ink);border-radius:8px;padding:12px 12px 40px;box-shadow:5px 6px 0 var(--ink);width:250px;transition:.18s}
+  .gal figure:nth-child(1){transform:rotate(-4deg)}.gal figure:nth-child(3){transform:rotate(4deg)}
+  .gal figure:hover{transform:rotate(0) translateY(-6px);box-shadow:8px 10px 0 var(--ink)}
+  .gal img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:4px;display:block}
+  .gal figcaption{font-family:"Bungee";font-size:14px;text-align:center;margin-top:12px;color:var(--pur)}
+  /* about */
+  .about{background:#fff;border:4px solid var(--ink);border-radius:34px;padding:40px;display:grid;grid-template-columns:210px 1fr;gap:40px;align-items:center;box-shadow:8px 10px 0 var(--ink)}
+  @media(max-width:680px){.about{grid-template-columns:1fr;text-align:center;justify-items:center}}
+  .about img{width:210px;height:210px;object-fit:cover;object-position:center 14%;border-radius:20px;border:4px solid var(--ink)}
+  .about h3{font-family:"Pretendard";font-weight:900;font-size:34px;margin-bottom:14px}
+  .about p{font-weight:500;max-width:560px;line-height:1.8}
+  .stats{display:flex;gap:14px;margin-top:22px;flex-wrap:wrap}@media(max-width:680px){.stats{justify-content:center}}
+  .stats div{background:#fff4fb;border:2.5px solid var(--ink);border-radius:16px;padding:12px 18px;box-shadow:3px 3px 0 var(--ink)}
+  .stats span{font-family:"Bungee";font-size:22px;display:block;color:var(--pink)}.stats small{font-weight:600;font-size:11px;letter-spacing:.06em}
+  /* follow */
+  .fl{display:flex;flex-wrap:wrap;gap:16px;justify-content:center}
+  .fl a{background:#fff;border:3px solid var(--ink);border-radius:100px;padding:16px 30px;font-weight:700;font-size:16px;box-shadow:4px 5px 0 var(--ink);transition:.15s}
+  .fl a:hover{transform:translate(-2px,-3px);box-shadow:6px 8px 0 var(--ink)}
+  .fl a:nth-child(1):hover{background:var(--pink);color:#fff}.fl a:nth-child(2):hover{background:var(--pur);color:#fff}
+  .fl a:nth-child(3):hover{background:var(--sky);color:#fff}.fl a:nth-child(4):hover{background:var(--mint)}
+  .fl a:nth-child(5):hover{background:var(--yel)}.fl a:nth-child(6):hover{background:var(--lime)}
+  footer{text-align:center;padding:56px 30px;font-weight:600;color:var(--pur)}
+  footer .b2{font-family:"Bungee";font-size:26px;margin-bottom:12px}
+</style></head><body>
+<nav id="nav"><div class="in"><a class="brand grad" href="#top">HAERA</a><div class="nav-links kr"><a href="#music">Music</a><a href="#video">Video</a><a href="#gallery">Gallery</a><a href="#about">About</a><a href="#follow">Follow</a></div></div></nav>
+
+<header class="hero wrap" id="top">
+  <span class="star" style="top:14%;left:44%;font-size:30px;transform:rotate(-10deg)">✦</span>
+  <span class="star" style="top:70%;left:8%;font-size:26px">💿</span>
+  <span class="star" style="top:22%;right:6%;font-size:28px">🎵</span>
+  <div>
+    <span class="badge kr">✨ Singer-songwriter · K-POP</span>
+    <h1 class="kr">해라</h1>
+    <div class="rom">HAERA ⭐</div>
+    <p class="kr">‘겨울 그리고 봄’, ‘Palette’… 자작곡을 노래하는 대한민국의 신예 싱어송라이터 🌈</p>
+    <div class="btns"><a class="b fill kr" href="#music">🎧 음악 듣기</a><a class="b kr" href="https://www.youtube.com/@오늘부터해라">YouTube</a></div>
+  </div>
+  <div class="photo"><span class="tape">★ HAERA ★</span><img src="img/haera-hero.jpg" alt="해라"></div>
+</header>
+
+<div class="kin"><div class="t">
+  <span class="grad-none"><i>해라</i> ✦ <i>HAERA</i> 💿 <i>겨울 그리고 봄</i> ⭐ <i>PALETTE</i> 🎵 <i>별빛슈</i> ✨</span>
+  <span><i>해라</i> ✦ <i>HAERA</i> 💿 <i>겨울 그리고 봄</i> ⭐ <i>PALETTE</i> 🎵 <i>별빛슈</i> ✨</span>
+</div></div>
+
+<section id="latest"><div class="wrap reveal">
+  <div class="latest">
+    <img src="https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/e4/30/68/e430684b-01be-e32f-4755-c56b3d0eb663/cover_KM0024454_1.jpg/400x400bb.jpg" alt="Palette">
+    <div><span class="k">✨ NEW SINGLE</span><h3 class="kr">Palette</h3>
+      <div class="btns"><a class="b kr" href="https://music.apple.com/kr/album/palette-single/1890355590">Apple Music</a><a class="b kr" href="https://www.melon.com/artist/detail.htm?artistId=2958552">Melon</a><a class="b kr" href="https://www.youtube.com/@오늘부터해라">YouTube</a></div>
+    </div>
+  </div>
+</div></section>
+
+<section id="music"><div class="wrap">
+  <div class="sh reveal"><span class="chip kr">💿 Discography</span><h2 class="kr">Music</h2></div>
+  <div class="mgrid reveal">
+    <a class="rel" href="https://music.apple.com/kr/album/palette-single/1890355590"><img src="https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/e4/30/68/e430684b-01be-e32f-4755-c56b3d0eb663/cover_KM0024454_1.jpg/600x600bb.jpg"><div class="t kr">Palette</div><div class="y">2026 · Single</div></a>
+    <a class="rel" href="https://music.apple.com/kr/album/starry-choux-single/1847576547"><img src="https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/d6/91/f3/d691f3d7-fd55-039b-234c-ba1ae0fa4e24/8800334228857.jpg/600x600bb.jpg"><div class="t kr">별빛슈 (Starry Choux)</div><div class="y">2025 · Single</div></a>
+    <a class="rel" href="https://music.apple.com/kr/album/%EA%B2%A8%EC%9A%B8-%EA%B7%B8%EB%A6%AC%EA%B3%A0-%EB%B4%84-single/1784180641"><img src="https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/b2/a9/e1/b2a9e129-3a44-d9cc-5905-a5442f350646/8800280896490.jpg/600x600bb.jpg"><div class="t kr">겨울 그리고 봄</div><div class="y">2024 · Single</div></a>
+    <a class="rel" href="https://music.apple.com/kr/album/midnight-single/1594981838"><img src="https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/17/59/3d/17593d04-5655-6114-0fb4-147e8bd3335e/192641803659.jpg/600x600bb.jpg"><div class="t kr">Midnight</div><div class="y">2021 · Single</div></a>
+  </div>
+</div></section>
+
+<section id="video"><div class="wrap">
+  <div class="sh reveal"><span class="chip kr">🎬 Watch</span><h2 class="kr">Video</h2></div>
+  <div class="vgrid reveal">
+    <a class="vc vfeat" href="https://www.youtube.com/watch?v=b9AwacQX20E"><img src="https://i.ytimg.com/vi/b9AwacQX20E/maxresdefault.jpg"><span class="p">▶</span><span class="c kr">겨울 그리고 봄 — Official MV</span></a>
+    <a class="vc" href="https://www.youtube.com/watch?v=qK2SiZfUl70"><img src="https://i.ytimg.com/vi/qK2SiZfUl70/hqdefault.jpg"><span class="p">▶</span><span class="c kr">Seori – Full moon (cover)</span></a>
+    <a class="vc" href="https://www.youtube.com/watch?v=RXx137BwyOI"><img src="https://i.ytimg.com/vi/RXx137BwyOI/hqdefault.jpg"><span class="p">▶</span><span class="c kr">자우림 – 스물다섯 스물하나 (cover)</span></a>
+  </div>
+</div></section>
+
+<section id="gallery"><div class="wrap">
+  <div class="sh reveal"><span class="chip kr">📸 Gallery</span><h2 class="kr">Photos</h2></div>
+  <div class="gal reveal">
+    <figure><img src="img/haera-hero.jpg" style="object-position:center 14%" alt="해라"><figcaption>HAERA ⭐</figcaption></figure>
+    <figure><img src="img/haera-guitar.jpg" style="object-position:center 16%" alt="해라"><figcaption>♪ ♥ ♪</figcaption></figure>
+    <figure><img src="img/haera-red.jpg" style="object-position:center 24%" alt="해라"><figcaption>★ 2026 ★</figcaption></figure>
+  </div>
+</div></section>
+
+<section id="about"><div class="wrap reveal">
+  <div class="about">
+    <img src="img/haera-guitar.jpg" alt="해라">
+    <div><span class="chip kr">💗 About</span><h3 class="kr" style="margin-top:12px">해라 · Haera</h3>
+      <p class="kr">해라(Haera)는 대한민국의 싱어송라이터예요! 백석예술대학교 실용음악과에서 보컬을 전공하고, 2021년 ‘Midnight’으로 데뷔해 ‘겨울 그리고 봄’, ‘별빛슈’, ‘Palette’ 등 작사·작곡에 직접 참여한 자작곡을 발표했어요 🎶</p>
+      <div class="stats kr"><div><span>2021</span><small>DEBUT</small></div><div><span>6+</span><small>RELEASES</small></div><div><span>SEOUL</span><small>BASED IN</small></div></div>
+    </div>
+  </div>
+</div></section>
+
+<section id="follow"><div class="wrap">
+  <div class="sh reveal"><span class="chip kr">💌 Follow &amp; Listen</span><h2 class="kr">해라와 함께해요</h2></div>
+  <div class="fl reveal kr">
+    <a href="https://www.youtube.com/@오늘부터해라">YouTube</a>
+    <a href="https://www.instagram.com/_do______ob_">Instagram</a>
+    <a href="https://music.apple.com/kr/artist/1594824045">Apple Music</a>
+    <a href="https://www.melon.com/artist/detail.htm?artistId=2958552">Melon</a>
+    <a href="https://www.genie.co.kr/detail/artistInfo?xxnm=81177056">Genie</a>
+    <a href="https://music.bugs.co.kr/artist/20141491">Bugs</a>
+  </div>
+</div></section>
+<footer><div class="b2 grad">HAERA ⭐</div><div class="kr">© 2026 해라 (Haera) · Ncompany Entertainment 🌈</div></footer>
+<script>
+  addEventListener('scroll',function(){document.getElementById('nav').classList.toggle('on',scrollY>40)});
+  var io=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{threshold:.08});
+  document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});
+</script>
+</body></html>
