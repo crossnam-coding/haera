@@ -56,6 +56,8 @@
   body { margin: 0; background: var(--color-bg); color: var(--color-text); text-wrap: pretty; overflow-x: hidden; }
   a { color: var(--color-accent); text-decoration: none; }
   a:hover { color: var(--color-accent-700); }
+  img { -webkit-touch-callout:none; -webkit-user-select:none; user-select:none; -webkit-user-drag:none; user-drag:none; }
+  [data-photo]{ transition:filter .6s ease, transform .18s linear !important; will-change:transform; }
   @keyframes hr-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
   @keyframes hr-scan { 0% { transform: translateY(0); opacity: 0; } 8% { opacity: .9; } 92% { opacity: .9; } 100% { transform: translateY(100%); opacity: 0; } }
   @keyframes hr-blink { 0%,49% { opacity: 1; } 50%,100% { opacity: 0; } }
@@ -211,15 +213,12 @@
     <div class="mgallery" style="display:grid; grid-template-columns:repeat(3,1fr); gap:16px;">
       <figure style="margin:0; position:relative; overflow:hidden; border:2px solid var(--color-text); aspect-ratio:3/4;">
         <img data-photo src="img/haera-guitar.jpg" alt="해라" style="width:100%; height:100%; object-fit:cover; object-position:center 12%; filter:grayscale(1) contrast(1.06); transition:filter .6s ease, transform .6s ease;">
-        <figcaption style="position:absolute; left:10px; bottom:8px; font-family:var(--font-heading); font-weight:800; font-size:11px; letter-spacing:0.1em; color:var(--color-bg); mix-blend-mode:difference;">IMG_001</figcaption>
       </figure>
       <figure style="margin:0; position:relative; overflow:hidden; border:2px solid var(--color-text); aspect-ratio:3/4;">
         <img data-photo src="img/haera-hero.jpg" alt="해라" style="width:100%; height:100%; object-fit:cover; object-position:center 18%; filter:grayscale(1) contrast(1.06); transition:filter .6s ease, transform .6s ease;">
-        <figcaption style="position:absolute; left:10px; bottom:8px; font-family:var(--font-heading); font-weight:800; font-size:11px; letter-spacing:0.1em; color:var(--color-bg); mix-blend-mode:difference;">IMG_002</figcaption>
       </figure>
       <figure style="margin:0; position:relative; overflow:hidden; border:2px solid var(--color-text); aspect-ratio:3/4;">
         <img data-photo src="img/haera-red.jpg" alt="해라" style="width:100%; height:100%; object-fit:cover; object-position:center 22%; filter:grayscale(1) contrast(1.06); transition:filter .6s ease, transform .6s ease;">
-        <figcaption style="position:absolute; left:10px; bottom:8px; font-family:var(--font-heading); font-weight:800; font-size:11px; letter-spacing:0.1em; color:var(--color-bg); mix-blend-mode:difference;">IMG_003</figcaption>
       </figure>
     </div>
   </section>
@@ -322,11 +321,29 @@
   });
 
   // --- photo grayscale→color on hover ---
-  q('[data-photo]').forEach(function(img){
+  var pImgs = q('[data-photo]');
+  pImgs.forEach(function(img){
     var card = img.closest('a, figure') || img;
-    card.addEventListener('mouseenter', function(){ img.style.filter='none'; if(card.tagName==='A') img.style.transform='scale(1.03)'; });
-    card.addEventListener('mouseleave', function(){ img.style.filter='grayscale(1) contrast(1.06)'; img.style.transform='none'; });
+    card.addEventListener('mouseenter', function(){ img.style.filter='none'; });
+    card.addEventListener('mouseleave', function(){ img.style.filter='grayscale(1) contrast(1.06)'; });
   });
+  // 콘텐츠 사진 스크롤 패럴랙스 (히어로처럼 살아 움직임 · 전 기기)
+  if (!reduce) {
+    var cpar = function(){
+      var vh = window.innerHeight || 1;
+      pImgs.forEach(function(img){
+        var fr = img.parentElement; if(!fr) return;
+        var r = fr.getBoundingClientRect();
+        if (r.bottom < -60 || r.top > vh + 60) return;
+        var rel = (((r.top + r.height/2) - vh/2) / vh);
+        img.style.transform = 'scale(1.13) translateY('+(-rel*34).toFixed(1)+'px)';
+      });
+    };
+    var tick = false;
+    window.addEventListener('scroll', function(){ if(!tick){ tick=true; requestAnimationFrame(function(){ cpar(); tick=false; }); } }, { passive:true });
+    window.addEventListener('resize', cpar, { passive:true });
+    cpar();
+  }
 
   // --- marquee speed ---
   var track = document.querySelector('[data-marquee-track]');
@@ -394,7 +411,7 @@
     var htsrc = document.querySelector('[data-htsrc]');
     // 스크롤 패럴랙스 (전 기기 · 스크롤만 하면 인물이 입체적으로 움직임)
     if (htsrc && !reduce) {
-      var par = function(){ var y=Math.min(window.scrollY||0, window.innerHeight); var tf='scale(1.06) translateY('+(y*0.06).toFixed(1)+'px)'; htsrc.style.transform=tf; if(reveal) reveal.style.transform=tf; };
+      var par = function(){ var y=Math.min(window.scrollY||0, window.innerHeight); var tf='scale(1.14) translateY('+(y*0.15).toFixed(1)+'px)'; htsrc.style.transform=tf; if(reveal) reveal.style.transform=tf; };
       window.addEventListener('scroll', par, { passive:true }); par();
     }
     if (coarse) {
@@ -409,7 +426,7 @@
         var t = e.touches && e.touches[0]; if (!t) return;
         var r = fig.getBoundingClientRect();
         var x = t.clientX - r.left, y = t.clientY - r.top;
-        var m = 'radial-gradient(circle 92px at '+x+'px '+y+'px, #000 0%, rgba(0,0,0,.6) 52%, transparent 80%)';
+        var m = 'radial-gradient(circle 118px at '+x+'px '+y+'px, #000 0%, rgba(0,0,0,.7) 58%, transparent 82%)';
         reveal.style.webkitMaskImage = m; reveal.style.maskImage = m;
         if (scanline){ scanline.style.animation='none'; scanline.style.top = Math.max(0,y-1)+'px'; }
         if (hudXY) hudXY.textContent = 'X'+pad(x)+' Y'+pad(y);
