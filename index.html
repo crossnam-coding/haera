@@ -84,9 +84,10 @@
   /* 터치 기기(호버 불가): 흑백→컬러 인터랙션을 못 쓰니 처음부터 컬러로 */
   @media (hover: none){
     [data-photo]{ filter:none !important; transition:filter .5s ease; }
-    [data-htreveal]{ opacity:1 !important; -webkit-mask-image:none !important; mask-image:none !important; }
+    [data-htsrc]{ filter:contrast(1.05) saturate(1.08) !important; }
+    [data-htreveal]{ opacity:1 !important; filter:grayscale(1) sepia(1) hue-rotate(-30deg) saturate(5) contrast(1.05) brightness(.95) !important; }
     [data-htfig]{ cursor:default !important; }
-    [data-htsrc], [data-htreveal]{ transition:transform .12s ease-out, opacity .4s ease, filter .5s ease; will-change:transform; }
+    [data-htsrc], [data-htreveal]{ transition:filter .5s ease, opacity .4s ease; will-change:transform; }
   }
   @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } [data-marquee-track], [data-scanline], [data-float] { animation: none !important; } }
 </style>
@@ -390,40 +391,32 @@
     var canvas = document.querySelector('[data-halftone]');
     var hudXY = document.querySelector('[data-hud-xy]');
     if (canvas) canvas.style.display='none';
+    var htsrc = document.querySelector('[data-htsrc]');
+    // 스크롤 패럴랙스 (전 기기 · 스크롤만 하면 인물이 입체적으로 움직임)
+    if (htsrc && !reduce) {
+      var par = function(){ var y=Math.min(window.scrollY||0, window.innerHeight); var tf='scale(1.06) translateY('+(y*0.06).toFixed(1)+'px)'; htsrc.style.transform=tf; if(reveal) reveal.style.transform=tf; };
+      window.addEventListener('scroll', par, { passive:true }); par();
+    }
     if (coarse) {
-      // 모바일 전용: 자이로(기울기) 3D 패럴랙스 + HUD 실시간 좌표
-      var htsrc = document.querySelector('[data-htsrc]');
-      var grid = document.querySelector('[data-grid]');
-      var hudXY = document.querySelector('[data-hud-xy]');
+      // 모바일 전용: 손가락 드래그 스캔 (권한 불필요 · 인앱브라우저 포함 전 폰 작동)
+      var scanline = document.querySelector('[data-scanline]');
       var hint = null;
-      if (fig) Array.prototype.forEach.call(fig.querySelectorAll('span'), function(s){ if(/HOVER/i.test(s.textContent)){ s.textContent='▲ TILT TO SCAN'; hint=s; } });
-      if (reduce) return;
-      var clamp = function(v,m){ return Math.max(-m, Math.min(m, v||0)); };
-      var enable = function(){
-        var faded = false;
-        window.addEventListener('deviceorientation', function(e){
-          if (e.gamma == null && e.beta == null) return;
-          var g = clamp(e.gamma, 28);            // 좌우 기울기
-          var b = clamp((e.beta||0) - 42, 28);   // 앞뒤 기울기 (기본 파지각 보정)
-          var tx = (g/28)*16, ty = (b/28)*16;
-          var tf = 'scale(1.08) translate('+tx.toFixed(1)+'px,'+ty.toFixed(1)+'px)';
-          if (htsrc) htsrc.style.transform = tf;
-          if (reveal) reveal.style.transform = tf;
-          if (grid) grid.style.transform = 'translate('+(-tx*0.5).toFixed(1)+'px,'+(-ty*0.5).toFixed(1)+'px)';
-          if (hudXY) hudXY.textContent = 'X'+String(Math.round(Math.abs(g))*3).padStart(3,'0')+' Y'+String(Math.round(Math.abs(b))*3).padStart(3,'0');
-          if (!faded && hint){ faded=true; hint.style.transition='opacity 1s ease'; setTimeout(function(){ hint.style.opacity='0'; }, 2600); }
-        });
+      if (fig) Array.prototype.forEach.call(fig.querySelectorAll('span'), function(s){ if(/HOVER/i.test(s.textContent)){ s.textContent='▲ DRAG TO SCAN'; hint=s; } });
+      if (reduce || !fig || !reveal) return;
+      var pad = function(v){ return String(Math.max(0, Math.round(v))).padStart(3,'0'); };
+      var faded = false;
+      var scan = function(e){
+        var t = e.touches && e.touches[0]; if (!t) return;
+        var r = fig.getBoundingClientRect();
+        var x = t.clientX - r.left, y = t.clientY - r.top;
+        var m = 'radial-gradient(circle 92px at '+x+'px '+y+'px, #000 0%, rgba(0,0,0,.6) 52%, transparent 80%)';
+        reveal.style.webkitMaskImage = m; reveal.style.maskImage = m;
+        if (scanline){ scanline.style.animation='none'; scanline.style.top = Math.max(0,y-1)+'px'; }
+        if (hudXY) hudXY.textContent = 'X'+pad(x)+' Y'+pad(y);
+        if (!faded && hint){ faded=true; hint.style.transition='opacity .8s ease'; setTimeout(function(){ hint.style.opacity='0'; }, 2200); }
       };
-      if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
-        // iOS 13+ : 사용자 제스처에서 권한 요청
-        if (hint) hint.textContent = '▲ 탭하여 모션 켜기';
-        var ask = function(){
-          try { DeviceOrientationEvent.requestPermission().then(function(res){ if(res==='granted'){ if(hint) hint.textContent='▲ TILT TO SCAN'; enable(); } }).catch(function(){}); } catch(err){}
-        };
-        window.addEventListener('touchend', ask, { once:true });
-      } else {
-        enable();
-      }
+      fig.addEventListener('touchstart', scan, { passive:true });
+      fig.addEventListener('touchmove', scan, { passive:true });
       return;
     }
     if (!fig || !reveal || reduce) return;
