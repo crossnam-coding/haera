@@ -86,7 +86,7 @@
     [data-photo]{ filter:none !important; transition:filter .5s ease; }
     [data-htreveal]{ opacity:1 !important; -webkit-mask-image:none !important; mask-image:none !important; }
     [data-htfig]{ cursor:default !important; }
-    [data-hud-xy]{ display:none !important; }
+    [data-htsrc], [data-htreveal]{ transition:transform .12s ease-out, opacity .4s ease, filter .5s ease; will-change:transform; }
   }
   @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } [data-marquee-track], [data-scanline], [data-float] { animation: none !important; } }
 </style>
@@ -390,7 +390,42 @@
     var canvas = document.querySelector('[data-halftone]');
     var hudXY = document.querySelector('[data-hud-xy]');
     if (canvas) canvas.style.display='none';
-    if (coarse) { if (fig) Array.prototype.forEach.call(fig.querySelectorAll('span'), function(s){ if(/HOVER/i.test(s.textContent)) s.style.display='none'; }); return; }
+    if (coarse) {
+      // 모바일 전용: 자이로(기울기) 3D 패럴랙스 + HUD 실시간 좌표
+      var htsrc = document.querySelector('[data-htsrc]');
+      var grid = document.querySelector('[data-grid]');
+      var hudXY = document.querySelector('[data-hud-xy]');
+      var hint = null;
+      if (fig) Array.prototype.forEach.call(fig.querySelectorAll('span'), function(s){ if(/HOVER/i.test(s.textContent)){ s.textContent='▲ TILT TO SCAN'; hint=s; } });
+      if (reduce) return;
+      var clamp = function(v,m){ return Math.max(-m, Math.min(m, v||0)); };
+      var enable = function(){
+        var faded = false;
+        window.addEventListener('deviceorientation', function(e){
+          if (e.gamma == null && e.beta == null) return;
+          var g = clamp(e.gamma, 28);            // 좌우 기울기
+          var b = clamp((e.beta||0) - 42, 28);   // 앞뒤 기울기 (기본 파지각 보정)
+          var tx = (g/28)*16, ty = (b/28)*16;
+          var tf = 'scale(1.08) translate('+tx.toFixed(1)+'px,'+ty.toFixed(1)+'px)';
+          if (htsrc) htsrc.style.transform = tf;
+          if (reveal) reveal.style.transform = tf;
+          if (grid) grid.style.transform = 'translate('+(-tx*0.5).toFixed(1)+'px,'+(-ty*0.5).toFixed(1)+'px)';
+          if (hudXY) hudXY.textContent = 'X'+String(Math.round(Math.abs(g))*3).padStart(3,'0')+' Y'+String(Math.round(Math.abs(b))*3).padStart(3,'0');
+          if (!faded && hint){ faded=true; hint.style.transition='opacity 1s ease'; setTimeout(function(){ hint.style.opacity='0'; }, 2600); }
+        });
+      };
+      if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+        // iOS 13+ : 사용자 제스처에서 권한 요청
+        if (hint) hint.textContent = '▲ 탭하여 모션 켜기';
+        var ask = function(){
+          try { DeviceOrientationEvent.requestPermission().then(function(res){ if(res==='granted'){ if(hint) hint.textContent='▲ TILT TO SCAN'; enable(); } }).catch(function(){}); } catch(err){}
+        };
+        window.addEventListener('touchend', ask, { once:true });
+      } else {
+        enable();
+      }
+      return;
+    }
     if (!fig || !reveal || reduce) return;
     var mask = function(x,y,on){
       var m = 'radial-gradient(circle 130px at '+x+'px '+y+'px, #000 0%, rgba(0,0,0,.5) 55%, transparent 78%)';
