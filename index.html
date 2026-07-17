@@ -81,6 +81,13 @@
     /* 섹션 좌우 여백 축소 */
     section{ padding-left:20px !important; padding-right:20px !important; }
   }
+  /* 터치 기기(호버 불가): 흑백→컬러 인터랙션을 못 쓰니 처음부터 컬러로 */
+  @media (hover: none){
+    [data-photo]{ filter:none !important; transition:filter .5s ease; }
+    [data-htreveal]{ opacity:1 !important; -webkit-mask-image:none !important; mask-image:none !important; }
+    [data-htfig]{ cursor:default !important; }
+    [data-hud-xy]{ display:none !important; }
+  }
   @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } [data-marquee-track], [data-scanline], [data-float] { animation: none !important; } }
 </style>
 </head>
@@ -383,7 +390,8 @@
     var canvas = document.querySelector('[data-halftone]');
     var hudXY = document.querySelector('[data-hud-xy]');
     if (canvas) canvas.style.display='none';
-    if (!fig || !reveal || reduce || coarse) return;
+    if (coarse) { if (fig) Array.prototype.forEach.call(fig.querySelectorAll('span'), function(s){ if(/HOVER/i.test(s.textContent)) s.style.display='none'; }); return; }
+    if (!fig || !reveal || reduce) return;
     var mask = function(x,y,on){
       var m = 'radial-gradient(circle 130px at '+x+'px '+y+'px, #000 0%, rgba(0,0,0,.5) 55%, transparent 78%)';
       reveal.style.webkitMaskImage=m; reveal.style.maskImage=m; reveal.style.opacity = on ? '1' : '0';
