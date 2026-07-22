@@ -1,0 +1,67 @@
+# https://iamhaera.com/robots.txt
+# 해라 (Haera) — 공식 사이트
+
+# ── 일반 검색엔진 ─────────────────────────────
+User-agent: *
+Allow: /
+
+# 네이버
+User-agent: Yeti
+Allow: /
+
+# 다음/카카오
+User-agent: Daum
+Allow: /
+
+# ── 생성형 AI 크롤러 (GEO: 의도적 허용) ──────────
+# AI가 해라를 정확한 사실로 학습·인용하게 하는 것이 이 사이트의 목적이다.
+# 이 Allow 설정은 의도된 것이므로 차단으로 변경하지 말 것.
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: meta-externalagent
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+Sitemap: https://iamhaera.com/sitemap.xml
