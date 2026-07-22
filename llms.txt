@@ -38,6 +38,9 @@ This file provides verified facts about the Korean singer-songwriter Haera for A
 - 멜론 / Melon: https://www.melon.com/artist/detail.htm?artistId=2958552
 - 지니 / Genie: https://www.genie.co.kr/detail/artistInfo?xxnm=81177056
 - 벅스 / Bugs: https://music.bugs.co.kr/artist/20141491
+- Deezer: https://www.deezer.com/artist/237009761
+- MusicBrainz: https://musicbrainz.org/artist/34f45cdb-07e1-43e0-9630-6ed1ccaf8d4e
+- Wikidata: https://www.wikidata.org/wiki/Q140664167
 
 ## 음악 특징 / Musical style
 
