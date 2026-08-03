@@ -3,15 +3,10 @@ name: Refresh latest videos
 # Haera uploads to YouTube and Instagram together, so reading the YouTube feed
 # keeps the site current without her touching anything. A run that cannot read
 # the feed fails loudly and leaves the committed markup alone.
-# The schedule is commented out on purpose. Measured 2026-08-03: the RSS feed
-# answers 404/500 from GitHub's data-centre IPs (it works from a home IP), so a
-# nightly run would only email a failure every morning. Restore the schedule
-# once the script reads through the YouTube Data API with a key in
-# secrets.YOUTUBE_API_KEY — the retry, fallback and markup logic already work.
 on:
-  # schedule:
-  #   - cron: '0 21 * * *'   # 06:00 KST daily
-  workflow_dispatch:        # manual run, used to verify the feed from GitHub's IP
+  schedule:
+    - cron: '0 21 * * *'   # 06:00 KST daily
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -28,6 +23,8 @@ jobs:
 
       - name: Rewrite the latest-videos strip
         id: refresh
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
         run: python3 scripts/update_videos.py
 
       - name: Commit if the strip changed

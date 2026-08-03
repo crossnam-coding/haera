@@ -5,28 +5,40 @@ Haera posts the same clips to Instagram and YouTube, so YouTube alone covers
 both. Instagram is deliberately not touched: pulling posts from it needs
 scraping, which is a banned technique on this account (see the global rules).
 
-Two things about the feed, both measured on 2026-08-03:
-  * Sending a browser User-Agent gets a 404 and `curl/8.x` gets a 500. Sending
-    nothing, or a plain library UA, gets a 200. Do not "fix" the UA.
-  * The feed rate-limits by IP and starts answering 404 after repeated calls.
-    That is why a failure here must never rewrite the page — see below.
+Reads through the YouTube Data API rather than the RSS feed. Measured
+2026-08-03: the RSS endpoint answers 404/500 from GitHub's data-centre IPs
+(it serves fine from a home connection), so a scheduled run could never use it.
+The API works from anywhere with a key, and returns the whole upload history
+instead of the last 15 items, so covers are far easier to find.
 
-Failure policy: if the feed cannot be read, exit non-zero WITHOUT touching any
+The key lives in the YOUTUBE_API_KEY secret. It only reads public data, so it
+does not need to belong to the channel owner.
+
+Failure policy: if the API cannot be read, exit non-zero WITHOUT touching any
 file, so the last good markup stays live and the scheduled run reports red.
 A silent pass that quietly blanks the strip would be worse than no automation.
 """
 
 import html
+import json
 import os
 import re
 import sys
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
 
-FEED = "https://www.youtube.com/feeds/videos.xml?channel_id=UCLiDANnccVee5j5qJJKKoog"
+CHANNEL = "UCLiDANnccVee5j5qJJKKoog"
+# Every channel's uploads live in a playlist whose id is the channel id with
+# the leading "UC" swapped for "UU".
+UPLOADS = "UU" + CHANNEL[2:]
+API = "https://www.googleapis.com/youtube/v3/playlistItems"
 PLAYLIST = "https://www.youtube.com/playlist?list=PLF5GEJxFsh_KoZZ4o6_fbfipXW_5FpMtx"
 MAX_ITEMS = 3
+# Covers are a minority of the uploads (most are shorts), so scan a couple of
+# pages before giving up rather than only the newest handful.
+MAX_SCAN = 100
 
 # The strip lives between these markers; everything else on the page is authored
 # by hand and must survive untouched.
@@ -39,27 +51,57 @@ PAGES = [
 ]
 
 
-def fetch(url, attempts=4):
-    """Read the feed, retrying with backoff. Raises if every attempt fails."""
+def call(key, page=None, attempts=3):
+    """One page of uploads, retrying with backoff. Raises if all attempts fail."""
+    params = {
+        "part": "snippet",
+        "playlistId": UPLOADS,
+        "maxResults": "50",
+        "key": key,
+    }
+    if page:
+        params["pageToken"] = page
+    url = API + "?" + urllib.parse.urlencode(params)
+
     last = None
     for i in range(attempts):
         try:
-            # A plain library UA is what the feed actually accepts.
-            req = urllib.request.Request(url, headers={"User-Agent": "python-urllib/3"})
-            with urllib.request.urlopen(req, timeout=30) as r:
-                body = r.read().decode("utf-8", "replace")
-            if "<entry>" in body:
-                return body
-            last = f"200 but no <entry> (len {len(body)})"
+            with urllib.request.urlopen(url, timeout=30) as r:
+                return json.load(r)
         except urllib.error.HTTPError as e:
-            last = f"HTTP {e.code}"
+            # Never let the key reach the log.
+            body = re.sub(r"AIza[0-9A-Za-z_-]{30,}", "<key>", e.read().decode("utf-8", "replace"))
+            reason = re.search(r'"reason":\s*"([A-Za-z_]+)"', body)
+            last = f"HTTP {e.code} ({reason.group(1) if reason else 'unknown'})"
         except Exception as e:  # noqa: BLE001 - report whatever the network did
-            last = repr(e)
+            last = type(e).__name__
         if i < attempts - 1:
-            wait = 20 * (i + 1)
+            wait = 15 * (i + 1)
             print(f"  attempt {i+1} failed ({last}); retrying in {wait}s", flush=True)
             time.sleep(wait)
-    raise SystemExit(f"feed unreadable after {attempts} attempts: {last}")
+    raise SystemExit(f"YouTube API unreadable after {attempts} attempts: {last}")
+
+
+def fetch(key):
+    """Walk the uploads playlist until enough covers turn up."""
+    videos, scanned, page = [], 0, None
+    while scanned < MAX_SCAN:
+        data = call(key, page)
+        items = data.get("items", [])
+        if not items:
+            break
+        scanned += len(items)
+        videos.extend(items)
+        found = pick(videos)
+        if len(found) >= MAX_ITEMS:
+            return found
+        page = data.get("nextPageToken")
+        if not page:
+            break
+    found = pick(videos)
+    if not found:
+        raise SystemExit(f"no cover uploads found in the newest {scanned} videos")
+    return found
 
 
 # Cover uploads are titled "<song> (cover by 해라)", sometimes followed by
@@ -70,7 +112,7 @@ def fetch(url, attempts=4):
 COVER = re.compile(r"^(?P<song>.*?)\(\s*cover\s+by\s+해라\s*\)(?P<rest>.*)$", re.I | re.S)
 
 
-def parse(feed):
+def pick(items):
     """Return the newest cover uploads as (video_id, song, mood).
 
     Only covers are shown: they are the sit-down performances the site is meant
@@ -78,9 +120,12 @@ def parse(feed):
     letterbox badly in the 16:9 cards and do not always carry a #shorts tag.
     """
     out = []
-    for entry in re.findall(r"<entry>(.*?)</entry>", feed, re.S):
-        title = html.unescape(re.search(r"<title>(.*?)</title>", entry, re.S).group(1)).strip()
-        vid = re.search(r"<yt:videoId>(.*?)</yt:videoId>", entry).group(1)
+    for item in items:
+        snip = item.get("snippet", {})
+        title = html.unescape(snip.get("title", "")).strip()
+        vid = snip.get("resourceId", {}).get("videoId")
+        if not vid:
+            continue
 
         if re.search(r"#shorts?\b", title, re.I):
             continue
@@ -98,8 +143,6 @@ def parse(feed):
         out.append((vid, song, mood))
         if len(out) == MAX_ITEMS:
             break
-    if not out:
-        raise SystemExit("feed had no cover uploads to show")
     return out
 
 
@@ -147,9 +190,13 @@ def block(videos, heading, more):
 
 
 def main():
+    key = os.environ.get("YOUTUBE_API_KEY", "").strip()
+    if not key:
+        raise SystemExit("YOUTUBE_API_KEY is not set (repo secret of the same name)")
+
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    print(f"reading {FEED}", flush=True)
-    videos = parse(fetch(FEED))
+    print(f"reading uploads playlist {UPLOADS} via the YouTube Data API", flush=True)
+    videos = fetch(key)
     for vid, title, mood in videos:
         print(f"  {vid}  {title}" + (f"  [{mood}]" if mood else ""), flush=True)
 
