@@ -419,9 +419,12 @@ def page(data, lang):
 
 
 # The cover count also appears in prose elsewhere; keep those in step so the
-# number can never contradict the list itself.
-COUNT_MARKS = [
-    ("llms.txt", "<!--covers-->", "<!--/covers-->"),
+# number can never contradict the list itself. llms.txt is read by machines as
+# plain text, so the count is anchored on the surrounding sentence rather than
+# wrapped in markers — a comment delimiter would just be noise mid-sentence.
+COUNT_ANCHORS = [
+    ("llms.txt", re.compile(r'(재생목록 "커버해라", 공개 )\d+(곡)')),
+    ("llms.txt", re.compile(r'(playlist "커버해라", )\d+( public videos)')),
 ]
 
 
@@ -450,6 +453,19 @@ def main():
     for r in unmatched:
         print(f"    unlabelled: {r['raw']}", flush=True)
 
+    # Check the prose anchors before writing anything. A silently frozen count
+    # is the exact bug this page was built to end, so a missing anchor stops
+    # the run while the site is still consistent.
+    for name, pattern in COUNT_ANCHORS:
+        path = os.path.join(root, name)
+        if not os.path.exists(path):
+            raise SystemExit(f"{name} is missing; refusing to publish a count nothing can check")
+        if not pattern.search(open(path, encoding="utf-8").read()):
+            raise SystemExit(
+                f"{name}: no text matches {pattern.pattern!r}, so the cover count would go stale. "
+                "Update the pattern to match the new wording."
+            )
+
     changed = []
     for lang, rel in (("ko", "covers/index.html"), ("en", "en/covers/index.html")):
         path = os.path.join(root, rel)
@@ -460,22 +476,14 @@ def main():
             open(path, "w", encoding="utf-8").write(new)
             changed.append(rel)
 
-    for name, start, end in COUNT_MARKS:
+    for name, pattern in COUNT_ANCHORS:
         path = os.path.join(root, name)
-        if not os.path.exists(path):
-            continue
         text = open(path, encoding="utf-8").read()
-        if start not in text or end not in text:
-            continue
-        new = re.sub(
-            re.escape(start) + r".*?" + re.escape(end),
-            lambda _m: f"{start}{len(data)}{end}",
-            text,
-            flags=re.S,
-        )
+        new = pattern.sub(lambda m: f"{m.group(1)}{len(data)}{m.group(2)}", text)
         if new != text:
             open(path, "w", encoding="utf-8").write(new)
-            changed.append(name)
+            if name not in changed:
+                changed.append(name)
 
     print("updated: " + (", ".join(changed) if changed else "nothing (already current)"))
     out = os.environ.get("GITHUB_OUTPUT")
