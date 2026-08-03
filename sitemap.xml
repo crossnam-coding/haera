@@ -19,4 +19,22 @@
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
+  <url>
+    <loc>https://iamhaera.com/covers/</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iamhaera.com/covers/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iamhaera.com/en/covers/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iamhaera.com/covers/"/>
+    <lastmod>2026-08-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iamhaera.com/en/covers/</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://iamhaera.com/covers/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://iamhaera.com/en/covers/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://iamhaera.com/covers/"/>
+    <lastmod>2026-08-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
 </urlset>
