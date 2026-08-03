@@ -1,0 +1,35 @@
+name: Refresh latest videos
+
+# Haera uploads to YouTube and Instagram together, so reading the YouTube feed
+# keeps the site current without her touching anything. A run that cannot read
+# the feed fails loudly and leaves the committed markup alone.
+on:
+  schedule:
+    - cron: '0 21 * * *'   # 06:00 KST daily
+  workflow_dispatch:        # manual run, used to verify the feed from GitHub's IP
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-videos
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Rewrite the latest-videos strip
+        id: refresh
+        run: python3 scripts/update_videos.py
+
+      - name: Commit if the strip changed
+        if: steps.refresh.outputs.changed == 'true'
+        run: |
+          git config user.name  "haera-site-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html en/index.html
+          git commit -m "Refresh latest videos from the YouTube feed"
+          git push
