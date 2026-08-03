@@ -135,6 +135,39 @@ def fetch(key):
     return out
 
 
+STATS = "https://www.googleapis.com/youtube/v3/videos"
+
+
+def by_reach(key, items):
+    """Sort most-watched first.
+
+    Playlist order is whatever the channel last dragged things into, which
+    buries the covers that actually pull traffic — the rainy-day Heize cover
+    is measured at 4,700 views against a 100-300 channel median. A reader who
+    stops after five rows should be meeting those, not position 1.
+
+    Ordering is a presentation nicety, so a statistics call that fails leaves
+    playlist order in place and says so, rather than sinking the whole build.
+    """
+    views = {}
+    for i in range(0, len(items), 50):
+        chunk = items[i : i + 50]
+        params = {"part": "statistics", "id": ",".join(x["id"] for x in chunk), "key": key}
+        try:
+            with urllib.request.urlopen(STATS + "?" + urllib.parse.urlencode(params), timeout=30) as r:
+                for v in json.load(r).get("items", []):
+                    views[v["id"]] = int(v.get("statistics", {}).get("viewCount", 0))
+        except Exception as e:  # noqa: BLE001
+            print(f"  view counts unavailable ({type(e).__name__}); keeping playlist order", flush=True)
+            return items
+    if not views:
+        print("  view counts came back empty; keeping playlist order", flush=True)
+        return items
+    print(f"  ordering {len(views)} of {len(items)} by view count", flush=True)
+    # Ties and any id the stats call skipped keep their playlist position.
+    return sorted(items, key=lambda x: -views.get(x["id"], 0))
+
+
 def split(title):
     """(artist, song) for a cover title. artist is None when nothing matches."""
     m = COVER.match(title)
@@ -408,7 +441,7 @@ def main():
         if not key:
             raise SystemExit("YOUTUBE_API_KEY is not set (repo secret of the same name)")
         print(f"reading cover playlist {PLAYLIST_ID} via the YouTube Data API", flush=True)
-        items = fetch(key)
+        items = by_reach(key, fetch(key))
 
     data = rows(items)
     unmatched = [r for r in data if not r["artist"]]
